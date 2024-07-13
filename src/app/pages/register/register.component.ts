@@ -70,7 +70,8 @@ export class RegisterComponent implements OnInit {
     }
 
     const formData = this.registerForm.value;
-    this.http.post<{ message: string }>(`http://127.0.0.1:8000/accounts/register/`, formData).subscribe(
+    const baseUrl = window.location.origin;
+    this.http.post<{ message: string }>(`http://127.0.0.1:8000/accounts/register/`, { ...formData, baseUrl }).subscribe(
       response => {
         console.log('Registration successful', response);
          // Show success message and redirect to login
