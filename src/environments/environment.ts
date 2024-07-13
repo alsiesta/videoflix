@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    baseUrl:'ki-konferenz.azurewebsites.net/',
+    baseUrl:'https://ki-konferenz.azurewebsites.net',
 };
