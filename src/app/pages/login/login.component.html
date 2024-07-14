@@ -4,7 +4,29 @@
 <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
 <div class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70">
     <h1 class="font-bold text-3xl py-4">Sign-in</h1>
-   
+
+
+<!-- Success Message -->
+<div *ngIf="status === 'success'" class="bg-green-500 text-white p-4 rounded-md mb-4">
+  {{message}}
+</div>
+
+<!-- Error Message -->
+<div *ngIf="status === 'error'" class="bg-red-500 text-white p-4 rounded-md mb-4">
+  {{message}}
+
+  <!-- <a href="/reset-password/" class="text-blue-300 underline ml-2">Reset your password</a> -->
+  <div *ngIf="error">{{error}}</div>
+  <form (ngSubmit)="resendActivationLink(emailInput.value)" #resendForm="ngForm" class="mt-4">
+    <label for="email" class="block text-sm font-medium text-white">Email</label>
+    <input type="email" id="email" #emailInput required class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    
+    <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+      Resend Activation Link
+    </button>
+  </form>
+</div>
+
 
     <!-- 
      <h2>Using Google as Sign-in</h2>
@@ -13,9 +35,12 @@
 
     
     <form class="mt-6">
+      
       <div class="mb-4">
           <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
-          <input type="text" id="username" class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+          <input [(ngModel)]="username" name="username" type="text" id="username" class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+
       </div>
       <div class="mb-4">
           <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
