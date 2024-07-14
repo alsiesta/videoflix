@@ -1,20 +1,32 @@
-<!-- <div class="absolute inset-0 w-full h-full">
-    <img src="./assets/img/videoflix_start_bkg.jpg" alt="Video Background Image" class="w-full h-full object-cover">
-</div> <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
-<div class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70"> -->
-
-<!-- <form (ngSubmit)="login()">
-    <input type="text" name="username"  required>
-    <input type="password" name="password"  required>
-    <button>Login</button>
-</form> -->
-
 <div class="absolute inset-0 w-full h-full">
     <img src="./assets/img/videoflix_start_bkg.jpg" alt="Video Background Image" class="w-full h-full object-cover">
 </div>
 <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
 <div class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70">
-    <h1 class="font-bold text-3xl py-4">Netflix Sign-in</h1>
-    <h2>Using Google as Sign-in</h2>
-    <div id="google-btn" class="w-full py-4"></div>
+    <h1 class="font-bold text-3xl py-4">Sign-in</h1>
+   
+
+    <!-- 
+     <h2>Using Google as Sign-in</h2>
+     <div id="google-btn" class="w-full py-4"></div> 
+     -->
+
+    
+    <form class="mt-6">
+      <div class="mb-4">
+          <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
+          <input type="text" id="username" class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="mb-4">
+          <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+          <input type="password" id="password" class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      </div>
+      <div class="flex items-center justify-between">
+          <button type="submit" class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Sign In</button>
+      </div>
+  </form>
+
+  <div *ngIf="activationLinkInvalid" class="mt-4 text-red-500">
+      The activation link is invalid. Please try again.
+  </div>
 </div>

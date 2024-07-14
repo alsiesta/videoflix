@@ -10,6 +10,7 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  {path: 'login/:uidb64/:token',component: LoginComponent},
   { path: 'browse', component: BrowseComponent },
   { path: 'activate/:uid/:token', component:ActivationComponent },
 
