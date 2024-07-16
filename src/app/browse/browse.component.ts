@@ -14,7 +14,7 @@ export class BrowseComponent {
   picture = JSON.parse(sessionStorage.getItem('loggedInUser') || '{}').picture;
   
   signOut () {
-    this.auth.signOut();
+    // this.auth.signOut();
   }
 
 }

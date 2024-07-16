@@ -1,20 +1,28 @@
-declare var google: any;
-import { inject, Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+// declare var google: any;
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private loginUrl = 'http://127.0.0.1:8000/api/token/';
+  constructor (private http: HttpClient) { }
   
-  router = inject(Router);
-  signOut () {
-    google.accounts.id.disableAutoSelect();
-    sessionStorage.removeItem('loggedInUser');
-    this.router.navigate(['']);
+  login(credentials: any): Observable<any> {
+      console.log('Login credentials:', credentials);
+      return this.http.post(this.loginUrl, credentials);
   }
 
-  constructor () { }
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  logout(): void {
+    localStorage.removeItem('token');
+  }
+
   
   
 }

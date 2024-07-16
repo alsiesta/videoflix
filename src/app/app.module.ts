@@ -10,6 +10,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { ActivationComponent } from './pages/activation/activation.component'; 
 import {FormsModule } from '@angular/forms';
+import { HomeComponent } from './pages/home/home.component';
+
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -17,7 +21,8 @@ import {FormsModule } from '@angular/forms';
     LoginComponent,
     BrowseComponent,
     RegisterComponent,
-    ActivationComponent
+    ActivationComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +31,7 @@ import {FormsModule } from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -3,6 +3,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -17,8 +18,9 @@ export class LoginComponent implements OnInit {
   activationLinkInvalid: boolean = false;
   error: string | null = null;
 
-  constructor (private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
-  
+  credentials = { username: '', password: '' };
+
+  constructor (private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
 
   ngOnInit (): void {
     this.route.queryParams.subscribe(params => {
@@ -28,7 +30,7 @@ export class LoginComponent implements OnInit {
 
     });
 
-    this.djangoLogin()
+    // this.djangoLogin()
    // this.googleSignIn()
   }
 
@@ -54,16 +56,22 @@ export class LoginComponent implements OnInit {
     );
   }
 
-  private decodeToken (token: string) {
-    console.log('token', token);
-    return JSON.parse(atob(token.split('.')[1]));
+
+
+  login() {
+    this.authService.login(this.credentials).subscribe(response => {
+      localStorage.setItem('token', response.access);
+      this.router.navigate(['/home']);
+    }, error => {
+      this.error = error.error?.error || error.error?.message || error.error?.detail || 'An error occurred';
+    });
   }
 
-  djangoLogin() {
-    
-  }
-
-
+  // private decodeToken (token: string) {
+  //   console.log('token', token);
+  //   return JSON.parse(atob(token.split('.')[1]));
+  // }
+  
   // handleGoogleLogin (response: any) {
   //   if (response) {
   //     //decode the token

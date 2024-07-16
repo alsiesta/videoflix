@@ -4,15 +4,18 @@ import { LoginComponent } from './pages/login/login.component';
 import { BrowseComponent } from './browse/browse.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ActivationComponent } from './pages/activation/activation.component';
+import { AuthGuard } from './services/auth.guard';
+import { HomeComponent } from './pages/home/home.component';
 
 const routes: Routes = [
   // { path: '', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  {path: 'login/:uidb64/:token',component: LoginComponent},
-  { path: 'browse', component: BrowseComponent },
-  { path: 'activate/:uid/:token', component:ActivationComponent },
+  { path: 'login/:uidb64/:token', component: LoginComponent },
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  // { path: 'browse', component: BrowseComponent },
+  // { path: 'activate/:uid/:token', component:ActivationComponent },
 
 
 ];

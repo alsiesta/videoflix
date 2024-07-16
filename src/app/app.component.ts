@@ -9,6 +9,7 @@ import { Router, NavigationEnd } from '@angular/router';
 export class AppComponent {
   isLoggingIn = false;
   isRegistering = false;
+  isSignedIn = false;
   title = 'videoflix';
 
   constructor(private router: Router) {}
@@ -18,6 +19,7 @@ export class AppComponent {
       if (event instanceof NavigationEnd) {
         this.isLoggingIn = event.url === '/login';
         this.isRegistering = event.url === '/register';
+        this.isSignedIn = event.url === '/home';
       }
     });
   }
@@ -28,6 +30,11 @@ export class AppComponent {
 
   navigateToRegister() {
     this.router.navigate(['/register']);
+  }
+
+  logout() {
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
   }
   
 }
