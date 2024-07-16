@@ -1,64 +1,54 @@
-<!-- <div class="absolute inset-0 w-full h-full">
-    <img src="./assets/img/videoflix_start_bkg.jpg" alt="Video Background Image" class="w-full h-full object-cover">
+<!-- Main modal -->
+<div *ngIf="isLoading" id="modal" tabindex="-1" aria-hidden="true"
+    class="overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+
+    <div class="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50 z-[100]">
+        
+        <!-- Spinning Element -->
+        <div class="animate-spin w-1/2 h-1/2">
+            <!-- Your spinning content goes here -->
+            <svg class="w-full h-full" viewBox="0 0 24 24">
+                <circle class="opacity-50" cx="12" cy="12" r="10" stroke="white" stroke-width="4"></circle>
+                <path class="opacity-100" fill="green" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+        </div>
+        <!-- Text above the spinner -->
+        <h1 class="text-white text-3xl font-bold mb-4 mt-5">...verifying your email</h1>
+    </div>
 </div>
-<div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
-<div class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70">
-    <h1 class="font-bold text-3xl py-4">Netflix Sign-in</h1>
-    <h2>Using Google as Sign-in</h2>
-    <div id="google-btn" class="w-full py-4"></div>
-</div> -->
-
-<!-- <div class="absolute inset-0 w-full h-full">
-    <img src="./assets/img/videoflix_start_bkg.jpg" alt="Video Background Image" class="w-full h-full object-cover">
-</div>
-<div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
 
 
-<div class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70 mt-20">
-    <h1 class="font-bold text-3xl py-4">Register</h1>
-    <form (ngSubmit)="register()">
-        <div class="mb-4">
-            <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
-            <input type="text" id="username" name="username" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required>
-        </div>
-        <div class="mb-4">
-            <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
-            <input type="email" id="email" name="email" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required>
-        </div>
-        <div class="mb-4">
-            <label for="password1" class="block text-sm font-medium text-gray-300">Password</label>
-            <input type="password" id="password1" name="password1" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required>
-        </div>
-        <div class="mb-4">
-            <label for="password2" class="block text-sm font-medium text-gray-300">Confirm Password</label>
-            <input type="password" id="password2" name="password2" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required>
-        </div>
-        <button type="submit" class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 rounded-md text-white font-medium">Register</button>
-    </form>
-</div> -->
+
 
 <div class="absolute inset-0 w-full h-full">
     <img src="./assets/img/videoflix_start_bkg.jpg" alt="Video Background Image" class="w-full h-full object-cover">
 </div>
 <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
-<div class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70 mt-20">
+<div
+    class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70 mt-20">
     <h1 class="font-bold text-3xl py-4">Register</h1>
+
+
+
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
         <div *ngIf="message" class="text-green-500 text-center mb-4">
             {{ message }} <a routerLink="/login" class="text-blue-500 underline">Login</a>
         </div>
         <div class="mb-4">
             <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
-            <input type="text" id="username" formControlName="username" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required autocomplete="username">
+            <input type="text" id="username" formControlName="username"
+                class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required
+                autocomplete="username">
             <div *ngIf="submitted && f['username'].errors" class="text-red-500 text-sm mt-1">
                 <div *ngIf="f['username'].errors['required']">Username is required</div>
                 <div *ngIf="f['username'].errors['serverError']">{{ f['username'].errors['serverError'] }}</div>
-
             </div>
         </div>
         <div class="mb-4">
             <label for="email" class="block text-sm font-medium text-gray-300">Email</label>
-            <input type="email" id="email" formControlName="email" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required  autocomplete="email">
+            <input type="email" id="email" formControlName="email"
+                class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required
+                autocomplete="email">
             <div *ngIf="submitted && f['email'].errors" class="text-red-500 text-sm mt-1">
                 <div *ngIf="f['email'].errors['required']">Email is required</div>
                 <div *ngIf="f['email'].errors['email']">Email must be a valid email address</div>
@@ -67,23 +57,30 @@
         </div>
         <div class="mb-4">
             <label for="password1" class="block text-sm font-medium text-gray-300">Password</label>
-            <input type="password" id="password1" formControlName="password1" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required  autocomplete="new-password">
+            <input type="password" id="password1" formControlName="password1"
+                class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required
+                autocomplete="new-password">
             <div *ngIf="submitted && f['password1'].errors" class="text-red-500 text-sm mt-1">
                 <div *ngIf="f['password1'].errors['required']">Password is required</div>
-                <div *ngIf="f['password1'].errors['minlength']">Password must be at least 8 characters long</div>
-                <div *ngIf="f['password1'].errors['passwordStrength']">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</div>
-                <div *ngIf="f['password1'].errors['passwordStrength']">Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character</div>
+                <div *ngIf="f['password1'].errors['minlength']">Password must be at least 8 characters</div>
+                <div *ngIf="f['password1'].errors['passwordStrength']">Password must contain upper, lower, numeric, and
+                    special characters</div>
             </div>
         </div>
         <div class="mb-4">
             <label for="password2" class="block text-sm font-medium text-gray-300">Confirm Password</label>
-            <input type="password" id="password2" formControlName="password2" class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required  autocomplete="new-password">
+            <input type="password" id="password2" formControlName="password2"
+                class="mt-1 block w-full px-3 py-2 bg-gray-800 border border-gray-600 rounded-md text-white" required
+                autocomplete="new-password">
             <div *ngIf="submitted && f['password2'].errors" class="text-red-500 text-sm mt-1">
                 <div *ngIf="f['password2'].errors['required']">Confirm Password is required</div>
                 <div *ngIf="f['password2'].errors['mismatch']">Passwords must match</div>
                 <div *ngIf="f['password2'].errors['serverError']">{{ f['password2'].errors['serverError'] }}</div>
             </div>
         </div>
-        <button type="submit" [disabled]="isRegisterDisabled" class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 rounded-md text-white font-medium">Register</button>
+        <button type="submit" class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 rounded-md text-white font-medium"
+            [disabled]="isLoading">
+            Register
+        </button>
     </form>
 </div>

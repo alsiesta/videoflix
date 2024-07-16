@@ -14,6 +14,7 @@ export class RegisterComponent implements OnInit {
   message: string | null = null;
   isRegisterDisabled = false;
   isError: boolean = false;
+  isLoading = false; 
 
   constructor (
     private formBuilder: FormBuilder,
@@ -69,17 +70,21 @@ export class RegisterComponent implements OnInit {
       return;
     }
 
+    this.isLoading = true;
+
     const formData = this.registerForm.value;
     const baseUrl = window.location.origin;
     this.http.post<{ message: string }>(`http://127.0.0.1:8000/accounts/register/`, { ...formData, baseUrl }).subscribe(
       response => {
         console.log('Registration successful', response);
          // Show success message and redirect to login
-         this.message = response.message;
+        this.message = response.message;
+        this.isLoading = false;
         //  this.isRegisterDisabled = true;
       },
       error => {
         console.error('Registration failed', error);
+        this.isLoading = false;
         if (error.error && error.error.errors) {
           const errors = error.error.errors;
           if (errors.username) {
