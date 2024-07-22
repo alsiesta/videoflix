@@ -12,6 +12,7 @@ interface Video {
   description: string;
   created_at: string;
   categories: Category[];
+  path: string;
 }
 
 @Component({
@@ -20,6 +21,7 @@ interface Video {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  baseUrl = 'http://127.0.0.1:8000';
   videos: Video[] = []; 
   constructor(private http: HttpClient) {}
 
@@ -29,10 +31,13 @@ export class HomeComponent {
   }
 
   fetchVideos() {
-    this.http.get<Video[]>('http://127.0.0.1:8000/videos/')
+    this.http.get<Video[]>(this.baseUrl + '/videos/')
       .subscribe(data => {
-        this.videos = data;
-        console.log(this.videos); // Log the response to the console
+        this.videos = data.map(video => ({
+          ...video,
+          path: `${this.baseUrl}/${video.path}`
+        }));
+        console.log(this.videos); 
       });
   }
 

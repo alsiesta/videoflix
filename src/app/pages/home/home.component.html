@@ -19,14 +19,13 @@
             </div>
             <!-- Container for the nested divs -->
             <div id="videos" class="flex gap-2 overflow-x-auto scrollbar-hide w-full px-10">
-                <!-- Nested divs -->
-                <div class="bg-red-500 w-60 h-40 flex-shrink-0">1</div>
-                <div class="bg-red-500 w-60 h-40 flex-shrink-0">2</div>
-                <div class="bg-red-500 w-60 h-40 flex-shrink-0">3</div>
-                <div class="bg-red-500 w-60 h-40 flex-shrink-0">4</div>
-                <div class="bg-red-500 w-60 h-40 flex-shrink-0">5</div>
-                <div class="bg-red-500 w-60 h-40 flex-shrink-0">6</div>
-                <!-- Add more divs as needed -->
+                <!-- Nested video elements -->
+                <div *ngFor="let video of videos" class="bg-red-500 w-60 h-40 flex-shrink-0">
+                    <video controls class="w-full h-full">
+                        <source [src]="video.path" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
             <!-- Right arrow for scrolling -->
             <div class="absolute right-0 h-full flex items-center">
@@ -36,5 +35,4 @@
             </div>
         </div>
     </div>
-
 </div>
