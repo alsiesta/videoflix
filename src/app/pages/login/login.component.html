@@ -1,60 +1,80 @@
 <div class="absolute inset-0 w-full h-full">
-    <img src="./assets/img/videoflix_start_bkg.jpg" alt="Video Background Image" class="w-full h-full object-cover">
+  <img src="./assets/img/videoflix_start_bkg.jpg" alt="Video Background Image" class="w-full h-full object-cover">
 </div>
 <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
 <div class="w-full md:w-6/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70">
+
+  <!-- Login error.detail -->
+  <div *ngIf="error" class="bg-red-500 text-white p-4 rounded-md mb-4">
+    {{error}}
+  </div>
+
+  <!-- Success Message -->
+  <div *ngIf="status === 'success'" class="bg-green-500 text-white p-4 rounded-md mb-4">
+    {{message}}
+  </div>
+
+  <!-- Error Message -->
+  <div *ngIf="status === 'error'" class="bg-red-500 text-white p-4 rounded-md mb-4">
+    {{message}}
+
+    <!-- <a href="/reset-password/" class="text-blue-300 underline ml-2">Reset your password</a> -->
+    <div *ngIf="error">{{error}}</div>
+    <form (ngSubmit)="resendActivationLink(emailInput.value)" #resendForm="ngForm" class="mt-4">
+      <label for="email" class="block text-sm font-medium text-white">Email</label>
+      <input type="email" id="email" #emailInput required
+        class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+
+      <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
+        Resend Activation Link
+      </button>
+    </form>
+  </div>
+
+  <form *ngIf="showLoginForm" (ngSubmit)="login()" class="mt-6">
     <h1 class="font-bold text-3xl py-4">Sign-in</h1>
-<!-- Login error.detail -->
-<div *ngIf="error" class="bg-red-500 text-white p-4 rounded-md mb-4">
-  {{error}}
-</div>
+    <div class="mb-4">
+      <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
+      <input [(ngModel)]="credentials.username" name="username" type="text" id="username" required
+        autocomplete="username"
+        class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
 
-<!-- Success Message -->
-<div *ngIf="status === 'success'" class="bg-green-500 text-white p-4 rounded-md mb-4">
-  {{message}}
-</div>
+    </div>
+    <div class="mb-4">
+      <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
+      <input [(ngModel)]="credentials.password" type="password" name="password" id="password" required
+        autocomplete="current-password"
+        class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    </div>
 
-<!-- Error Message -->
-<div *ngIf="status === 'error'" class="bg-red-500 text-white p-4 rounded-md mb-4">
-  {{message}}
-
-  <!-- <a href="/reset-password/" class="text-blue-300 underline ml-2">Reset your password</a> -->
-  <div *ngIf="error">{{error}}</div>
-  <form (ngSubmit)="resendActivationLink(emailInput.value)" #resendForm="ngForm" class="mt-4">
-    <label for="email" class="block text-sm font-medium text-white">Email</label>
-    <input type="email" id="email" #emailInput required class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+    <div class="flex items-center justify-between">
+      <button type="submit"
+        class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Login</button>
+    </div>
     
-    <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-      Resend Activation Link
-    </button>
-  </form>
-</div>
-
-
-    <!-- 
-     <h2>Using Google as Sign-in</h2>
-     <div id="google-btn" class="w-full py-4"></div> 
-     -->
-
-    
-    <form (ngSubmit)="login()" class="mt-6">
-      
-      <div class="mb-4">
-          <label for="username" class="block text-sm font-medium text-gray-300">Username</label>
-          <input [(ngModel)]="credentials.username" name="username" type="text" id="username" required autocomplete="username"  class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-
-      </div>
-      <div class="mb-4">
-          <label for="password" class="block text-sm font-medium text-gray-300">Password</label>
-          <input [(ngModel)]="credentials.password" type="password" name="password" id="password" required autocomplete="current-password" class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-      </div>
-
-      <div class="flex items-center justify-between">
-          <button type="submit" class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Login</button>
-      </div>
   </form>
 
   <div *ngIf="activationLinkInvalid" class="mt-4 text-red-500">
-      The activation link is invalid. Please try again.
+    The activation link is invalid. Please try again.
+  </div>
+ 
+
+  <!-- Reset Password Form -->
+  <div *ngIf="showResetPasswordForm" class="mt-6 bg-gray-800 p-6 rounded-md">
+    <h1 class="font-bold text-3xl py-4">Reset Password</h1>
+    <form (ngSubmit)="resetPassword()">
+      <label for="resetEmail" class="block text-sm font-medium text-white">Email</label>
+      <input type="email" id="resetEmail" [(ngModel)]="resetEmail" name="resetEmail" required
+        class="mt-1 block w-full px-3 py-2 bg-gray-800 text-gray-300 border border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+      <button type="submit" class="mt-4 bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">Send Reset
+        Link</button>
+    </form>
+  </div>
+
+  <!-- Centered Toggle Button -->
+  <div class="flex justify-center mt-4">
+    <button (click)="toggleResetPasswordForm()" class="bg-slate-800 text-white px-4 py-2 rounded-md hover:bg-slate-700">
+      {{ showResetPasswordForm ? 'Back to Sign-in' : 'Reset Password' }}
+    </button>
   </div>
 </div>

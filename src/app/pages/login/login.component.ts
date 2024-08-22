@@ -17,6 +17,9 @@ export class LoginComponent implements OnInit {
   message: string | null = null;
   activationLinkInvalid: boolean = false;
   error: string | null = null;
+  showResetPasswordForm: boolean = false;
+  resetEmail: string = '';
+  showLoginForm: boolean = true;
 
   credentials = { username: '', password: '' };
 
@@ -67,36 +70,31 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  // private decodeToken (token: string) {
-  //   console.log('token', token);
-  //   return JSON.parse(atob(token.split('.')[1]));
-  // }
-  
-  // handleGoogleLogin (response: any) {
-  //   if (response) {
-  //     //decode the token
-  //     const payLoad = this.decodeToken(response.credential);
-  //     //store in session
-  //     sessionStorage.setItem('loggedInUser', JSON.stringify(payLoad));
-  //     //navigate to home
-  //     this.router.navigate(['browse']);
-  //   }
-  //   console.log('response', response);
-  // }
+  toggleResetPasswordForm() {
+    this.showResetPasswordForm = !this.showResetPasswordForm;
+    this.showLoginForm = !this.showResetPasswordForm; 
+  }
+
+  resetPassword() {
+    const url = 'http://127.0.0.1:8000/reset_password/';
+    const body = { email: this.resetEmail };
+    this.error = null;
+    this.message = null;
+
+    this.http.post(url, body).subscribe(
+      response => {
+        this.message = 'Password reset link sent successfully';
+        this.error = null;
+        console.log('Password reset link sent successfully', response);
+      },
+      (error: HttpErrorResponse) => {
+        this.error = error.error?.error || error.error?.message || 'An error occurred';
+        this.message = null;
+        console.error('Error sending password reset link', error);
+      }
+    );
+  }
 
 
-  // googleSignIn () {
-  //   google.accounts.id.initialize({
-  //     client_id: '711458419890-nqvcm6k1seh5hbm1anbc2t0om2cjblp6.apps.googleusercontent.com',
-  //     callback: (resp: any) => this.handleGoogleLogin(resp)
-  //   });
-
-  //   google.accounts.id.renderButton(document.getElementById('google-btn'),
-  //     {
-  //       theme: 'filled_blue',
-  //       size: 'large',
-  //       shape: 'rectangle',
-  //     });
-  // }
 
 }
