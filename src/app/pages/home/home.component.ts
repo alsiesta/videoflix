@@ -13,6 +13,7 @@ interface Video {
   created_at: string;
   categories: Category[];
   path: string;
+  imagepath: string;
 }
 
 @Component({
@@ -35,7 +36,8 @@ export class HomeComponent {
       .subscribe(data => {
         this.videos = data.map(video => ({
           ...video,
-          path: `${this.baseUrl}/${video.path}`
+          path: `${this.baseUrl}/${video.path}`,
+          imagepath: `${this.baseUrl}/${video.imagepath}`
         }));
         console.log(this.videos); 
       });

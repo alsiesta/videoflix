@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { AuthService } from './services/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -12,9 +13,12 @@ export class AppComponent {
   isSignedIn = false;
   title = 'videoflix';
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private authService: AuthService) {}
 
-  ngOnInit() {
+  ngOnInit () {
+    this.authService.isLoggingIn$.subscribe(value => this.isLoggingIn = value);
+    this.authService.isRegistering$.subscribe(value => this.isRegistering = value);
+
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.isLoggingIn = event.url === '/login';
@@ -26,10 +30,14 @@ export class AppComponent {
 
   navigateToLogin() {
     this.router.navigate(['/login']);
+    this.authService.setRegistering(false);
+    this.authService.setLoggingIn(true);
   }
 
   navigateToRegister() {
     this.router.navigate(['/register']);
+    this.authService.setRegistering(true);
+    this.authService.setLoggingIn(false);
   }
 
   logout() {

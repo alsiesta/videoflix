@@ -14,12 +14,13 @@
     {{message}}
   </div>
 
-  <!-- Error Message -->
+  <!-- Error Message
   <div *ngIf="status === 'error'" class="bg-red-500 text-white p-4 rounded-md mb-4">
     {{message}}
 
-    <!-- <a href="/reset-password/" class="text-blue-300 underline ml-2">Reset your password</a> -->
     <div *ngIf="error">{{error}}</div>
+
+
     <form (ngSubmit)="resendActivationLink(emailInput.value)" #resendForm="ngForm" class="mt-4">
       <label for="email" class="block text-sm font-medium text-white">Email</label>
       <input type="email" id="email" #emailInput required
@@ -29,7 +30,7 @@
         Resend Activation Link
       </button>
     </form>
-  </div>
+  </div> -->
 
   <form *ngIf="showLoginForm" (ngSubmit)="login()" class="mt-6">
     <h1 class="font-bold text-3xl py-4">Sign-in</h1>
@@ -51,18 +52,18 @@
       <button type="submit"
         class="w-full py-2 px-4 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-lg shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">Login</button>
     </div>
-    
+
   </form>
 
   <div *ngIf="activationLinkInvalid" class="mt-4 text-red-500">
     The activation link is invalid. Please try again.
   </div>
- 
+
 
   <!-- Reset Password Form -->
   <div *ngIf="showResetPasswordForm" class="mt-6 bg-gray-800 p-6 rounded-md">
     <h1 class="font-bold text-3xl py-4">Reset your password</h1>
-    <p>We will send you an email with instructions to reset your password.</p>
+    <p class="mb-4">We will send you an email with instructions to reset your password.</p>
     <form (ngSubmit)="resetPassword()">
       <label for="resetEmail" class="block text-sm font-medium text-white">Send Email</label>
       <input type="email" id="resetEmail" [(ngModel)]="resetEmail" name="resetEmail" required
@@ -73,9 +74,14 @@
   </div>
 
   <!-- Centered Toggle Button -->
-  <div class="flex justify-center mt-4">
+  <div class="flex flex-col justify-center items-center mt-4">
     <button (click)="toggleResetPasswordForm()" class="bg-slate-800 text-white px-4 py-2 rounded-md hover:bg-slate-700">
       {{ showResetPasswordForm ? 'Back to Sign-in' : 'Forgot your Password?' }}
     </button>
+    <div class="py-5">
+      New to Videoflix? <a class="underline text-blue-500 cursor-pointer hover:text-blue-300"
+        (click)="navigateToRegister()">Register now!</a>
+    </div>
   </div>
+
 </div>

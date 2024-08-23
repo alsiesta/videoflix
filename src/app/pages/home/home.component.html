@@ -10,7 +10,7 @@
             <!-- Content for the upper div -->
         </div>
          <!-- Lower div taking 1/4 of the height -->
-         <div class="bg-green-500 opacity-40 flex items-center relative" style="flex: 1 1 0%;">
+         <div class="bg-green-300 opacity-60 flex items-center relative" style="flex: 1 1 0%;">
             <!-- Left arrow for scrolling -->
             <div class="absolute left-0 h-full flex items-center">
                 <button class="bg-gray-800 text-white p-2 rounded-full" (click)="scrollLeft()">
@@ -21,11 +21,14 @@
             <div id="videos" class="flex gap-2 overflow-x-auto scrollbar-hide w-full px-10">
                 <!-- Nested video elements -->
                 <div *ngFor="let video of videos" class="bg-red-500 w-60 h-40 flex-shrink-0">
+                    <img [src]="video.imagepath" alt="Video Thumbnail" class="w-full h-full">
+                </div>
+                <!-- <div *ngFor="let video of videos" class="bg-red-500 w-60 h-40 flex-shrink-0">
                     <video controls class="w-full h-full">
-                        <source [src]="video.path" type="video/mp4">
+                        <source [src]="video.imagepath" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
-                </div>
+                </div> -->
             </div>
             <!-- Right arrow for scrolling -->
             <div class="absolute right-0 h-full flex items-center">

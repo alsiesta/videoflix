@@ -21,6 +21,7 @@ export class LoginComponent implements OnInit {
   resetEmail: string = '';
   showLoginForm: boolean = true;
 
+
   credentials = { username: '', password: '' };
 
   constructor (private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
@@ -34,10 +35,10 @@ export class LoginComponent implements OnInit {
     });
 
     // this.djangoLogin()
-   // this.googleSignIn()
+    // this.googleSignIn()
   }
 
-  resendActivationLink(email: string) {
+  resendActivationLink (email: string) {
     const url = 'http://127.0.0.1:8000/resend_activation_link/';
     const body = { email: email };
     this.error = null;
@@ -61,7 +62,7 @@ export class LoginComponent implements OnInit {
 
 
 
-  login() {
+  login () {
     this.authService.login(this.credentials).subscribe(response => {
       localStorage.setItem('token', response.access);
       this.router.navigate(['/home']);
@@ -70,31 +71,50 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  toggleResetPasswordForm() {
+  toggleResetPasswordForm () {
     this.showResetPasswordForm = !this.showResetPasswordForm;
-    this.showLoginForm = !this.showResetPasswordForm; 
+    this.showLoginForm = !this.showResetPasswordForm;
   }
 
-  resetPassword() {
-    const url = 'http://127.0.0.1:8000/reset_password/';
+  resetPassword () {
+    const url = 'http://127.0.0.1:8000/accounts/password_reset/';
     const body = { email: this.resetEmail };
     this.error = null;
     this.message = null;
+    this.status = null;
 
     this.http.post(url, body).subscribe(
-      response => {
-        this.message = 'Password reset link sent successfully';
-        this.error = null;
-        console.log('Password reset link sent successfully', response);
+      (response: any) => {
+        if (response.message) {
+          this.message = response.message;
+          this.error = null;
+          this.status = 'success';
+          console.log('Password reset link sent successfully', response);
+        } else if (response.error) {
+          this.error = response.error;
+          this.message = null;
+          this.status = 'error';
+          console.error('Error sending password reset link', response);
+        }
       },
       (error: HttpErrorResponse) => {
-        this.error = error.error?.error || error.error?.message || 'An error occurred';
+        if (error.error?.email) {
+          this.error = error.error.email.join(', ');
+        } else {
+          this.error = error.error?.error || error.error?.message || 'An error occurred';
+        }
         this.message = null;
+        this.status = 'error';
         console.error('Error sending password reset link', error);
       }
     );
   }
 
+  navigateToRegister () {
+    this.authService.setRegistering(true);
+    this.authService.setLoggingIn(false);
+    this.router.navigate(['/register']);
+  }
 
 
 }
