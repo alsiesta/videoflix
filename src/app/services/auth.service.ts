@@ -13,10 +13,12 @@ export class AuthService {
   constructor (private http: HttpClient) { }
   private loggingInSubject = new BehaviorSubject<boolean>(true);
   private registeringSubject = new BehaviorSubject<boolean>(false);
+  private usernameSubject = new BehaviorSubject<string | null>(localStorage.getItem('username'));
+
 
   isLoggingIn$ = this.loggingInSubject.asObservable();
   isRegistering$ = this.registeringSubject.asObservable();
-  
+  username$ = this.usernameSubject.asObservable();
 
   loginWithUsernameAndPassword (username: string, password: string) {
     const url = environment.baseUrl + "/login/";
@@ -26,11 +28,15 @@ export class AuthService {
     return lastValueFrom(this.http.post<LoginResponse>(url, body))
   }
 
-  // login(credentials: any): Observable<any> {
-  //     console.log('Login credentials:', credentials);
-  //     return this.http.post(this.loginUrl, credentials);
-  // }
-
+  setUsername(username: string | null) {
+    if (username) {
+      localStorage.setItem('username', username);
+    } else {
+      localStorage.removeItem('username');
+    }
+    this.usernameSubject.next(username);
+  }
+  
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
   }

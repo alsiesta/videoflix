@@ -72,7 +72,11 @@ export class LoginComponent implements OnInit {
     try {
       let resp: LoginResponse = await this.authService.loginWithUsernameAndPassword(this.username, this.password)
       console.log('Login response: ', resp.token);
+      console.log('Complete body: ', resp);
       localStorage.setItem('token', resp.token);
+      localStorage.setItem('username', resp.username);
+      this.authService.setUsername(resp.username);
+
       this.router.navigate(['/home']);
     } catch (error) {
       console.error('Error logging in', error);

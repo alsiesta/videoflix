@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { lastValueFrom } from 'rxjs';
 
@@ -23,53 +23,59 @@ interface Video {
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent {
-  BASE_URL = 'http://127.0.0.1:8000';
-  videos: Video[] = []; 
+export class HomeComponent implements OnInit {
+  private readonly BASE_URL = 'http://127.0.0.1:8000';
+  videos: Video[] = [];
   error: string | null = null;
+
   constructor(private http: HttpClient) {}
 
-
   async ngOnInit() {
-    // this.fetchVideos();
+    await this.loadVideos();
+  }
+
+  private async loadVideos() {
     try {
-      this.videos = await this.getVideos();
-      this.videos = this.videos.map(video => ({
+      const videos = await this.getVideos();
+      this.videos = videos.map(video => ({
         ...video,
         path: `${this.BASE_URL}/${video.path}`,
         imagepath: `${this.BASE_URL}/${video.imagepath}`
       }));
       console.log(this.videos);
     } catch (error) {
-      if (error instanceof HttpErrorResponse) {
-        // HTTP-Fehlerbehandlung
-        this.error = error.error.error || error.error.message || error.error.detail || 'Fehler beim Laden der Videos';
-      } else if (error instanceof TypeError) {
-        // Netzwerkfehler oder JSON-Verarbeitungsfehler
-        console.error('Netzwerkfehler oder JSON-Verarbeitungsfehler:', error);
-        this.error = 'Netzwerkfehler oder Fehler bei der Verarbeitung der Antwort';
-      } else {
-        // Generische Fehlerbehandlung
-        console.error('Unbekannter Fehler:', error);
-        this.error = 'Fehler beim Laden der Videos';
-      }
+      this.handleError(error);
     }
   }
 
-  getVideos () {
-    const url = environment.baseUrl + '/videos/';
-    return lastValueFrom(this.http.get<Video[]>(url))
+  private getVideos(): Promise<Video[]> {
+    const url = `${environment.baseUrl}/videos/`;
+    return lastValueFrom(this.http.get<Video[]>(url));
   }
 
-
-
-  scrollLeft () {
-    const container = document.getElementById('videos');
-    container!.scrollBy({ left: -200, behavior: 'smooth' });
+  private handleError(error: any) {
+    if (error instanceof HttpErrorResponse) {
+      this.error = error.error.error || error.error.message || error.error.detail || 'Fehler beim Laden der Videos';
+    } else if (error instanceof TypeError) {
+      console.error('Netzwerkfehler oder JSON-Verarbeitungsfehler:', error);
+      this.error = 'Netzwerkfehler oder Fehler bei der Verarbeitung der Antwort';
+    } else {
+      console.error('Unbekannter Fehler:', error);
+      this.error = 'Fehler beim Laden der Videos';
+    }
   }
 
-  scrollRight () {
+  scrollLeft() {
+    this.scroll('left');
+  }
+
+  scrollRight() {
+    this.scroll('right');
+  }
+
+  private scroll(direction: 'left' | 'right') {
     const container = document.getElementById('videos');
-    container!.scrollBy({ left: 200, behavior: 'smooth' });
+    const scrollAmount = direction === 'left' ? -200 : 200;
+    container?.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   }
 }
