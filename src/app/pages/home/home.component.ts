@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { lastValueFrom } from 'rxjs';
 
 interface Category {
   id: number;
@@ -24,24 +26,38 @@ interface Video {
 export class HomeComponent {
   baseUrl = 'http://127.0.0.1:8000';
   videos: Video[] = []; 
+  error: string | null = null;
   constructor(private http: HttpClient) {}
 
 
-  ngOnInit() {
-    this.fetchVideos();
+  async ngOnInit() {
+    // this.fetchVideos();
+    try {
+      this.videos = await this.getVideos();
+      console.log(this.videos);
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        // HTTP-Fehlerbehandlung
+        this.error = error.error.error || error.error.message || error.error.detail || 'Fehler beim Laden der Videos';
+      } else if (error instanceof TypeError) {
+        // Netzwerkfehler oder JSON-Verarbeitungsfehler
+        console.error('Netzwerkfehler oder JSON-Verarbeitungsfehler:', error);
+        this.error = 'Netzwerkfehler oder Fehler bei der Verarbeitung der Antwort';
+      } else {
+        // Generische Fehlerbehandlung
+        console.error('Unbekannter Fehler:', error);
+        this.error = 'Fehler beim Laden der Videos';
+      }
+    }
   }
 
-  fetchVideos() {
-    this.http.get<Video[]>(this.baseUrl + '/videos/')
-      .subscribe(data => {
-        this.videos = data.map(video => ({
-          ...video,
-          path: `${this.baseUrl}/${video.path}`,
-          imagepath: `${this.baseUrl}/${video.imagepath}`
-        }));
-        console.log(this.videos); 
-      });
+  getVideos () {
+    const url = environment.baseUrl + '/videos/';
+    let headers = new HttpHeaders();
+    headers = headers.set('Authorization', 'Token' + localStorage.getItem('token'));
+    return lastValueFrom(this.http.get<Video[]>(url, { headers: headers }))
   }
+
 
 
   scrollLeft () {
