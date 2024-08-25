@@ -24,7 +24,7 @@ interface Video {
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
-  baseUrl = 'http://127.0.0.1:8000';
+  BASE_URL = 'http://127.0.0.1:8000';
   videos: Video[] = []; 
   error: string | null = null;
   constructor(private http: HttpClient) {}
@@ -34,6 +34,11 @@ export class HomeComponent {
     // this.fetchVideos();
     try {
       this.videos = await this.getVideos();
+      this.videos = this.videos.map(video => ({
+        ...video,
+        path: `${this.BASE_URL}/${video.path}`,
+        imagepath: `${this.BASE_URL}/${video.imagepath}`
+      }));
       console.log(this.videos);
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
@@ -53,9 +58,7 @@ export class HomeComponent {
 
   getVideos () {
     const url = environment.baseUrl + '/videos/';
-    let headers = new HttpHeaders();
-    headers = headers.set('Authorization', 'Token' + localStorage.getItem('token'));
-    return lastValueFrom(this.http.get<Video[]>(url, { headers: headers }))
+    return lastValueFrom(this.http.get<Video[]>(url))
   }
 
 

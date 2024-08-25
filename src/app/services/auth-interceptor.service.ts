@@ -8,8 +8,6 @@ import { Observable } from 'rxjs';
 })
 export class AuthInterceptorService implements HttpInterceptor{
 
-  // constructor(private router: Router) { }
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
     if (token) {
@@ -22,24 +20,4 @@ export class AuthInterceptorService implements HttpInterceptor{
     return next.handle(req);
   }
 
-
-
-
-  // intercept (request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-  //   const token = localStorage.getItem('token');
-  //   if (token) {
-  //     request = request.clone({
-  //       setHeaders: { Authorization: `Token ${token}` }
-  //     });
-  //   }
-
-  //   return next.handle(request).pipe(catchError((err) => {
-  //     if (err instanceof HttpErrorResponse) {
-  //       if (err.status === 401) {
-  //         this.router.navigateByUrl('/login');
-  //       }
-  //     }
-  //     return throwError(() => err);
-  //   }));
-  // }
 }
