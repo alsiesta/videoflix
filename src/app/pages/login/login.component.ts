@@ -4,6 +4,8 @@ import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
+import { LoginResponse } from 'src/app/models/models';
+
 
 @Component({
   selector: 'app-login',
@@ -22,9 +24,6 @@ export class LoginComponent implements OnInit {
   showResetPasswordForm: boolean = false;
   resetEmail: string = '';
   showLoginForm: boolean = true;
-
-
-  credentials = { username: '', password: '' };
 
   constructor (private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient) { }
 
@@ -63,38 +62,18 @@ export class LoginComponent implements OnInit {
   }
 
 
-
-  // login () {
-  //   this.authService.login(this.credentials).subscribe(response => {
-  //     localStorage.setItem('token', response.access);
-  //     this.router.navigate(['/home']);
-  //   }, error => {
-  //     this.error = error.error?.error || error.error?.message || error.error?.detail || 'An error occurred';
-  //   });
-  // }
-
-  async loginWithUsernameAndPassword () {
+  async login () {
+    if (this.username === null || this.password === null) {
+      console.error('Username or password is null');
+      return;
+    }
+    
     this.isLoading = true;
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
-
-    const raw = JSON.stringify({
-      "username": this.username,
-      "password": this.password
-    });
-
-    const requestOptions: RequestInit = {
-      method: "POST",
-      headers: myHeaders,
-      body: raw,
-      redirect: "follow"
-    };
     try {
-      let resp = await fetch("http://127.0.0.1:8000/login/", requestOptions)
-      let json = await resp.json()
-      localStorage.setItem('token', json.token);
+      let resp: LoginResponse = await this.authService.loginWithUsernameAndPassword(this.username, this.password)
+      console.log('Login response: ', resp.token);
+      localStorage.setItem('token', resp.token);
       this.router.navigate(['/home']);
-
     } catch (error) {
       console.error('Error logging in', error);
     } finally {

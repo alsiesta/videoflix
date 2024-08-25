@@ -1,7 +1,9 @@
 // declare var google: any;
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject } from 'rxjs';
+import { Observable, BehaviorSubject, lastValueFrom } from 'rxjs';
+import { LoginResponse } from '../models/models';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +17,19 @@ export class AuthService {
   isLoggingIn$ = this.loggingInSubject.asObservable();
   isRegistering$ = this.registeringSubject.asObservable();
   
-  login(credentials: any): Observable<any> {
-      console.log('Login credentials:', credentials);
-      return this.http.post(this.loginUrl, credentials);
+
+  loginWithUsernameAndPassword (username: string, password: string) {
+    const url = environment.baseUrl + "/login/";
+    const body = {
+      "username": username,
+      "password": password}
+    return lastValueFrom(this.http.post<LoginResponse>(url, body))
   }
+
+  // login(credentials: any): Observable<any> {
+  //     console.log('Login credentials:', credentials);
+  //     return this.http.post(this.loginUrl, credentials);
+  // }
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
