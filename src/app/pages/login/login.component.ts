@@ -13,6 +13,8 @@ import { AuthService } from '../../services/auth.service';
 export class LoginComponent implements OnInit {
 
   username: string | null = null;
+  password: string | null = null;
+  isLoading: boolean = false;
   status: string | null = null;
   message: string | null = null;
   activationLinkInvalid: boolean = false;
@@ -62,14 +64,44 @@ export class LoginComponent implements OnInit {
 
 
 
-  login () {
-    this.authService.login(this.credentials).subscribe(response => {
-      localStorage.setItem('token', response.access);
-      this.router.navigate(['/home']);
-    }, error => {
-      this.error = error.error?.error || error.error?.message || error.error?.detail || 'An error occurred';
+  // login () {
+  //   this.authService.login(this.credentials).subscribe(response => {
+  //     localStorage.setItem('token', response.access);
+  //     this.router.navigate(['/home']);
+  //   }, error => {
+  //     this.error = error.error?.error || error.error?.message || error.error?.detail || 'An error occurred';
+  //   });
+  // }
+
+  async loginWithUsernameAndPassword () {
+    this.isLoading = true;
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+
+    const raw = JSON.stringify({
+      "username": this.username,
+      "password": this.password
     });
+
+    const requestOptions: RequestInit = {
+      method: "POST",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow"
+    };
+    try {
+      let resp = await fetch("http://127.0.0.1:8000/login/", requestOptions)
+      let json = await resp.json()
+      localStorage.setItem('token', json.token);
+      this.router.navigate(['/home']);
+
+    } catch (error) {
+      console.error('Error logging in', error);
+    } finally {
+      this.isLoading = false;
+    }
   }
+
 
   toggleResetPasswordForm () {
     this.showResetPasswordForm = !this.showResetPasswordForm;
