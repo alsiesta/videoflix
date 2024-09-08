@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
         if (event instanceof NavigationEnd) {
           this.isLoggingIn = event.url === '/login';
           this.isRegistering = event.url === '/register';
-          this.isSignedIn = event.url === '/home';
+          this.isSignedIn = event.url === '/home' || event.url === '/user_reset_password';
         }
       })
     );

@@ -9,19 +9,13 @@ import { HomeComponent } from './pages/home/home.component';
 import { UserResetPasswordComponent } from './pages/user-reset-password/user-reset-password.component';
 
 const routes: Routes = [
-  // { path: '', component: LoginComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login/:uidb64/:token', component: LoginComponent },
-  { path: 'user_reset_password', component: UserResetPasswordComponent },
-
+  { path: 'user_reset_password', component: UserResetPasswordComponent, canActivate: [AuthGuard]  },
   { path: 'reset/:uidb64/:token', component: UserResetPasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
-  // { path: 'browse', component: BrowseComponent },
-  // { path: 'activate/:uid/:token', component:ActivationComponent },
-
-
 ];
 
 @NgModule({

@@ -13,88 +13,49 @@ import { environment } from '../../../environments/environment';
 })
 export class UserResetPasswordComponent implements OnInit {
   private baseUrl: string = environment.baseUrl;
-  
+
   resetPasswordForm: FormGroup;
-  uidb64: string;
-  token: string;
+  token: string | null = null;
   errorMessage: string | null = null;
   successMessage: string | null = null;
 
   status: string | null = null;
   message: string | null = null;
   error: string | null = null;
-  resetEmail: string = '';
+
 
   constructor(
     private fb: FormBuilder,
     private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient
   ) {
     this.resetPasswordForm = this.fb.group({
-      newPassword: ['', [Validators.required, Validators.minLength(8)]],
-      confirmPassword: ['', [Validators.required, Validators.minLength(8)]]
-    });
-
-    // Extract parameters from the URL
-    this.uidb64 = this.route.snapshot.paramMap.get('uidb64')!;
-    this.token = this.route.snapshot.paramMap.get('token')!;
+      oldPassword: ['', [Validators.required]],
+      newPassword: ['', [Validators.required, Validators.minLength(2)]],
+      confirmPassword: ['', [Validators.required, Validators.minLength(2)]]
+    }, { validator: this.passwordsMatchValidator });
   }
 
-  ngOnInit() {
-    console.log("UIDB64: ", this.uidb64);
-    console.log("Token: ", this.token);
-    this.route.queryParams.subscribe(params => {
-      this.resetEmail = params['email'] || '';
-    });
+  passwordsMatchValidator(form: FormGroup) {
+    const newPassword = form.get('newPassword')?.value;
+    const confirmPassword = form.get('confirmPassword')?.value;
+
+    if (newPassword !== confirmPassword) {
+      form.get('confirmPassword')?.setErrors({ passwordsMismatch: true });
+    } else {
+      form.get('confirmPassword')?.setErrors(null);
+    }
+    return null;
   }
 
-  // resetPassword() {
-  //   const url = `${this.baseUrl}/accounts/password_reset/`;
-  //   const body = { email: this.resetEmail };
-  //   this.error = null;
-  //   this.message = null;
-  //   this.status = null;
+  ngOnInit () {
+    this.token = localStorage.getItem('token') || '';
+  }
 
-  //   this.http.post(url, body).subscribe(
-  //     (response: any) => {
-  //       if (response.message) {
-  //         this.message = response.message;
-  //         this.error = null;
-  //         this.status = 'success';
-  //         console.log('Password reset link sent successfully', response);
-  //       } else if (response.error) {
-  //         this.error = response.error;
-  //         this.message = null;
-  //         this.status = 'error';
-  //         console.error('Error sending password reset link', response);
-  //       }
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       if (error.error?.email) {
-  //         this.error = error.error.email.join(', ');
-  //       } else {
-  //         this.error = error.error?.error || error.error?.message || 'An error occurred';
-  //       }
-  //       this.message = null;
-  //       this.status = 'error';
-  //       console.error('Error sending password reset link', error);
-  //     }
-  //   );
-  // }
 
-  // navigateToRegister() {
-  //   this.authService.setRegistering(true);
-  //   this.authService.setLoggingIn(false);
-  //   this.router.navigate(['/register']);
-  // }
-
-  // navigateToLogin() {
-  //   this.router.navigate(['/login']);
-  //   this.authService.setRegistering(false);
-  //   this.authService.setLoggingIn(true);
-  // }
 
   onSubmit() {
     if (this.resetPasswordForm.valid) {
+      const oldPassword = this.resetPasswordForm.get('oldPassword')?.value;
       const newPassword = this.resetPasswordForm.get('newPassword')?.value;
       const confirmPassword = this.resetPasswordForm.get('confirmPassword')?.value;
 
@@ -103,20 +64,39 @@ export class UserResetPasswordComponent implements OnInit {
         return;
       }
 
-      this.http.post(`${this.baseUrl}/user/reset_password/`, {
-        uidb64: this.uidb64,
+      this.http.post(`${this.baseUrl}/user/user_reset_password/`, {
         token: this.token,
-        new_password: newPassword
+        old_password: oldPassword,
+        new_password: newPassword,
+        confirm_password: confirmPassword
       }).subscribe({
         next: (response) => {
           this.successMessage = 'Password reset successful!';
           this.errorMessage = null;
+          this.resetPasswordForm.reset();
         },
-        error: (error) => {
-          this.errorMessage = 'Failed to reset password. Please try again.';
+        error: (error: HttpErrorResponse) => {
+          if (error.error?.non_field_errors) {
+            this.errorMessage = error.error.non_field_errors.join(', ');
+          } else {
+            this.errorMessage = 'Failed to reset password. Please try again.';
+          }
           this.successMessage = null;
         }
       });
     }
   }
+
+  logout (event: Event) {
+    event.preventDefault(); 
+    localStorage.removeItem('token');
+    this.authService.setUsername(null);
+    this.router.navigate(['/login']);
+  }
+
+  navigateToHome (event: Event) {
+    event.preventDefault(); 
+    this.router.navigate(['/home']);
+  }
+
 }

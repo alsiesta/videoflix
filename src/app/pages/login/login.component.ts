@@ -121,7 +121,6 @@ export class LoginComponent implements OnInit {
           this.error = null;
           this.status = 'success';
           console.log('Password reset link sent successfully', response);
-          this.clearAlert ()
         }
       },
       (error: HttpErrorResponse) => {
