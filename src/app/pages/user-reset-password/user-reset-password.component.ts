@@ -7,11 +7,11 @@ import { AuthService } from 'src/app/services/auth.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-reset-password',
-  templateUrl: './reset-password.component.html',
-  styleUrls: ['./reset-password.component.scss']
+  selector: 'app-user-reset-password',
+  templateUrl: './user-reset-password.component.html',
+  styleUrls: ['./user-reset-password.component.scss']
 })
-export class ResetPasswordComponent implements OnInit {
+export class UserResetPasswordComponent implements OnInit {
   private baseUrl: string = environment.baseUrl;
   
   resetPasswordForm: FormGroup;
@@ -47,51 +47,51 @@ export class ResetPasswordComponent implements OnInit {
     });
   }
 
-  resetPassword() {
-    const url = `${this.baseUrl}/accounts/password_reset/`;
-    const body = { email: this.resetEmail };
-    this.error = null;
-    this.message = null;
-    this.status = null;
+  // resetPassword() {
+  //   const url = `${this.baseUrl}/accounts/password_reset/`;
+  //   const body = { email: this.resetEmail };
+  //   this.error = null;
+  //   this.message = null;
+  //   this.status = null;
 
-    this.http.post(url, body).subscribe(
-      (response: any) => {
-        if (response.message) {
-          this.message = response.message;
-          this.error = null;
-          this.status = 'success';
-          console.log('Password reset link sent successfully', response);
-        } else if (response.error) {
-          this.error = response.error;
-          this.message = null;
-          this.status = 'error';
-          console.error('Error sending password reset link', response);
-        }
-      },
-      (error: HttpErrorResponse) => {
-        if (error.error?.email) {
-          this.error = error.error.email.join(', ');
-        } else {
-          this.error = error.error?.error || error.error?.message || 'An error occurred';
-        }
-        this.message = null;
-        this.status = 'error';
-        console.error('Error sending password reset link', error);
-      }
-    );
-  }
+  //   this.http.post(url, body).subscribe(
+  //     (response: any) => {
+  //       if (response.message) {
+  //         this.message = response.message;
+  //         this.error = null;
+  //         this.status = 'success';
+  //         console.log('Password reset link sent successfully', response);
+  //       } else if (response.error) {
+  //         this.error = response.error;
+  //         this.message = null;
+  //         this.status = 'error';
+  //         console.error('Error sending password reset link', response);
+  //       }
+  //     },
+  //     (error: HttpErrorResponse) => {
+  //       if (error.error?.email) {
+  //         this.error = error.error.email.join(', ');
+  //       } else {
+  //         this.error = error.error?.error || error.error?.message || 'An error occurred';
+  //       }
+  //       this.message = null;
+  //       this.status = 'error';
+  //       console.error('Error sending password reset link', error);
+  //     }
+  //   );
+  // }
 
-  navigateToRegister() {
-    this.authService.setRegistering(true);
-    this.authService.setLoggingIn(false);
-    this.router.navigate(['/register']);
-  }
+  // navigateToRegister() {
+  //   this.authService.setRegistering(true);
+  //   this.authService.setLoggingIn(false);
+  //   this.router.navigate(['/register']);
+  // }
 
-  navigateToLogin() {
-    this.router.navigate(['/login']);
-    this.authService.setRegistering(false);
-    this.authService.setLoggingIn(true);
-  }
+  // navigateToLogin() {
+  //   this.router.navigate(['/login']);
+  //   this.authService.setRegistering(false);
+  //   this.authService.setLoggingIn(true);
+  // }
 
   onSubmit() {
     if (this.resetPasswordForm.valid) {
@@ -103,7 +103,7 @@ export class ResetPasswordComponent implements OnInit {
         return;
       }
 
-      this.http.post(`${this.baseUrl}/accounts/set_new_password/`, {
+      this.http.post(`${this.baseUrl}/user/reset_password/`, {
         uidb64: this.uidb64,
         token: this.token,
         new_password: newPassword

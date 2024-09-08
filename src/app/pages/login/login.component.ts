@@ -35,8 +35,9 @@ export class LoginComponent implements OnInit {
 
     });
 
-    // this.djangoLogin()
-    // this.googleSignIn()
+    this.authService.error$.subscribe(error => {
+      this.error = error;
+    });
   }
 
   resendActivationLink (email: string) {
@@ -61,14 +62,19 @@ export class LoginComponent implements OnInit {
     );
   }
 
+  clearAlert (): void {
+    this.error = null;
+    this.message = null;
+  }
 
   async login () {
     if (this.username === null || this.password === null) {
       console.error('Username or password is null');
       return;
     }
-    
+
     this.isLoading = true;
+    this.error = null;
     try {
       let resp: LoginResponse = await this.authService.loginWithUsernameAndPassword(this.username, this.password)
       console.log('Login response: ', resp.token);
@@ -79,7 +85,11 @@ export class LoginComponent implements OnInit {
 
       this.router.navigate(['/home']);
     } catch (error) {
-      console.error('Error logging in', error);
+      if (error instanceof HttpErrorResponse) {
+        this.error = error.error?.non_field_errors || 'Invalid Credentials';
+      } else {
+        this.error = 'An error occurred during login';
+      }
     } finally {
       this.isLoading = false;
     }
@@ -92,7 +102,7 @@ export class LoginComponent implements OnInit {
   }
 
   resetPassword () {
-    const url = 'http://127.0.0.1:8000/accounts/password_reset/';
+    const url = 'http://127.0.0.1:8000/user/mail_reset_password/';
     const body = { email: this.resetEmail };
     this.error = null;
     this.message = null;
@@ -105,16 +115,20 @@ export class LoginComponent implements OnInit {
           this.error = null;
           this.status = 'success';
           console.log('Password reset link sent successfully', response);
-        } else if (response.error) {
-          this.error = response.error;
-          this.message = null;
-          this.status = 'error';
-          console.error('Error sending password reset link', response);
+          this.clearAlert ()
+        } else if (response.detail) {
+          this.message = response.detail;
+          this.error = null;
+          this.status = 'success';
+          console.log('Password reset link sent successfully', response);
+          this.clearAlert ()
         }
       },
       (error: HttpErrorResponse) => {
         if (error.error?.email) {
           this.error = error.error.email.join(', ');
+        } else if (error.error?.detail) {
+          this.error = error.error.detail;
         } else {
           this.error = error.error?.error || error.error?.message || 'An error occurred';
         }

@@ -8,13 +8,13 @@ import { BrowseComponent } from './browse/browse.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { ActivationComponent } from './pages/activation/activation.component'; 
-import {FormsModule } from '@angular/forms';
+import { ActivationComponent } from './pages/activation/activation.component';
+import { FormsModule } from '@angular/forms';
 import { HomeComponent } from './pages/home/home.component';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
-import { ResetPasswordComponent } from './pages/reset-password/reset-password.component';
+import { UserResetPasswordComponent } from './pages/user-reset-password/user-reset-password.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
     RegisterComponent,
     ActivationComponent,
     HomeComponent,
-    ResetPasswordComponent
+    UserResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +33,7 @@ import { ResetPasswordComponent } from './pages/reset-password/reset-password.co
     HttpClientModule,
     FormsModule
   ],
-  providers: [{provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

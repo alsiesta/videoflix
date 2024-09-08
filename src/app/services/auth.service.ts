@@ -1,9 +1,10 @@
 // declare var google: any;
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, lastValueFrom } from 'rxjs';
 import { LoginResponse } from '../models/models';
 import { environment } from 'src/environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,21 +15,50 @@ export class AuthService {
   private loggingInSubject = new BehaviorSubject<boolean>(true);
   private registeringSubject = new BehaviorSubject<boolean>(false);
   private usernameSubject = new BehaviorSubject<string | null>(localStorage.getItem('username'));
+  private errorSubject = new BehaviorSubject<string | null>(null);
 
 
   isLoggingIn$ = this.loggingInSubject.asObservable();
   isRegistering$ = this.registeringSubject.asObservable();
   username$ = this.usernameSubject.asObservable();
+  error$ = this.errorSubject.asObservable();
 
   loginWithUsernameAndPassword (username: string, password: string) {
     const url = environment.baseUrl + "/login/";
     const body = {
       "username": username,
-      "password": password}
+      "password": password
+    }
+    // console.log(url, body);
     return lastValueFrom(this.http.post<LoginResponse>(url, body))
+      .then(response => {
+        return response;
+      })
+      .catch((error: HttpErrorResponse) => {
+        this.handleHttpError(error);
+        throw error;
+      });
   }
 
-  setUsername(username: string | null) {
+  handleHttpError(error: HttpErrorResponse): void {
+    let errorMessage = 'An unexpected error occurred';
+
+    if (error.error) {
+      if (error.error.non_field_errors) {
+        errorMessage = 'Non-field errors occurred: ' + error.error.non_field_errors;
+      } else if (error.error.username) {
+        errorMessage = 'Username error occurred: ' + error.error.username;
+      } else if (error.error.password) {
+        errorMessage = 'Password error occurred: ' + error.error.password;
+      }
+    }
+
+    this.errorSubject.next(errorMessage);
+    console.error('Error response body:', error.error);
+    throw error;
+  }
+
+  setUsername (username: string | null) {
     if (username) {
       localStorage.setItem('username', username);
     } else {
@@ -36,23 +66,23 @@ export class AuthService {
     }
     this.usernameSubject.next(username);
   }
-  
-  isLoggedIn(): boolean {
+
+  isLoggedIn (): boolean {
     return !!localStorage.getItem('token');
   }
 
-  logout(): void {
+  logout (): void {
     localStorage.removeItem('token');
   }
 
-  setLoggingIn(value: boolean) {
+  setLoggingIn (value: boolean) {
     this.loggingInSubject.next(value);
   }
 
-  setRegistering(value: boolean) {
+  setRegistering (value: boolean) {
     this.registeringSubject.next(value);
   }
 
-  
-  
+
+
 }

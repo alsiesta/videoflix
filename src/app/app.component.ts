@@ -13,6 +13,7 @@ export class AppComponent implements OnInit, OnDestroy {
   isRegistering = false;
   isSignedIn = false;
   title = 'videoflix';
+  isDropdownOpen = false;
   username: string | null = null;
   private subscriptions: Subscription = new Subscription();
 
@@ -60,9 +61,23 @@ export class AppComponent implements OnInit, OnDestroy {
     this.authService.setLoggingIn(false);
   }
 
-  logout() {
+  logout(event: Event) {
     localStorage.removeItem('token');
     this.authService.setUsername(null);
     this.router.navigate(['/login']);
+  }
+
+  toggleDropdown() {
+    this.isDropdownOpen = !this.isDropdownOpen;
+  }
+
+  navigateToUserResertPassword (event: Event) {
+    event.preventDefault(); 
+    this.router.navigate(['/user_reset_password']);
+  }
+
+  disableLink (event: Event) {
+    event.preventDefault(); 
+    event.preventDefault(); // Prevent the default action of the link
   }
 }
