@@ -38,55 +38,7 @@ export class UserconfirmnewpasswordComponent implements OnInit {
     this.token = this.route.snapshot.paramMap.get('token')!;
   }
 
-  ngOnInit() {
-   
-  }
-
-  // resetPassword() {
-  //   const url = `${this.baseUrl}/accounts/password_reset/`;
-  //   const body = { email: this.resetEmail };
-  //   this.error = null;
-  //   this.message = null;
-  //   this.status = null;
-
-  //   this.http.post(url, body).subscribe(
-  //     (response: any) => {
-  //       if (response.message) {
-  //         this.message = response.message;
-  //         this.error = null;
-  //         this.status = 'success';
-  //         console.log('Password reset link sent successfully', response);
-  //       } else if (response.error) {
-  //         this.error = response.error;
-  //         this.message = null;
-  //         this.status = 'error';
-  //         console.error('Error sending password reset link', response);
-  //       }
-  //     },
-  //     (error: HttpErrorResponse) => {
-  //       if (error.error?.email) {
-  //         this.error = error.error.email.join(', ');
-  //       } else {
-  //         this.error = error.error?.error || error.error?.message || 'An error occurred';
-  //       }
-  //       this.message = null;
-  //       this.status = 'error';
-  //       console.error('Error sending password reset link', error);
-  //     }
-  //   );
-  // }
-
-  // navigateToRegister() {
-  //   this.authService.setRegistering(true);
-  //   this.authService.setLoggingIn(false);
-  //   this.router.navigate(['/register']);
-  // }
-
-  // navigateToLogin() {
-  //   this.router.navigate(['/login']);
-  //   this.authService.setRegistering(false);
-  //   this.authService.setLoggingIn(true);
-  // }
+  ngOnInit () { }
 
   onSubmit() {
     if (this.resetPasswordForm.valid) {
@@ -98,20 +50,39 @@ export class UserconfirmnewpasswordComponent implements OnInit {
         return;
       }
 
-      this.http.post(`${this.baseUrl}/user/reset_password/`, {
-        uidb64: this.uidb64,
-        token: this.token,
+      this.http.post(`${this.baseUrl}/user/password_reset_confirm/${this.uidb64}/${this.token}/`, {
         new_password: newPassword
       }).subscribe({
         next: (response) => {
           this.successMessage = 'Password reset successful!';
           this.errorMessage = null;
         },
-        error: (error) => {
-          this.errorMessage = 'Failed to reset password. Please try again.';
+        error: (error: HttpErrorResponse) => {
+          if (error.error?.detail === 'Invalid token or user ID.') {
+            this.errorMessage = 'Invalid token or user ID. Please try the password reset process again.';
+          } else {
+            this.errorMessage = 'Failed to reset password. Please try again.';
+          }
           this.successMessage = null;
         }
       });
     }
+  }
+
+  navigateToHome (event: Event) {
+    event.preventDefault(); 
+    this.router.navigate(['/home']);
+  }
+
+  logout (event: Event) {
+    event.preventDefault(); 
+    localStorage.removeItem('token');
+    this.authService.setUsername(null);
+    this.router.navigate(['/login']);
+  }
+
+  clearAlert (): void {
+    this.error = null;
+    this.successMessage = null;
   }
 }

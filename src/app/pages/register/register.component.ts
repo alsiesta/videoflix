@@ -1,7 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
+
+interface RegisterResponse {
+  user_id: number;
+  username: string;
+  email: string;
+  is_active: boolean;
+  first_name: string;
+  last_name: string;
+}
 
 @Component({
   selector: 'app-register',
@@ -12,13 +22,16 @@ export class RegisterComponent implements OnInit {
   registerForm!: FormGroup;
   submitted = false;
   message: string | null = null;
+  errorMessage: string | null = null;
+  successMessage: string | null = null;
+
   isRegisterDisabled = false;
   isError: boolean = false;
-  isLoading = false; 
+  isLoading = false;
 
   constructor (
     private formBuilder: FormBuilder,
-    private http: HttpClient,) { }
+    private http: HttpClient, private router: Router,) { }
 
   ngOnInit (): void {
     this.registerForm = this.formBuilder.group({
@@ -29,6 +42,9 @@ export class RegisterComponent implements OnInit {
     }, {
       validator: this.mustMatch('password1', 'password2')
     });
+
+    // this.successMessage ="Success message";
+    // this.errorMessage ="Error  message";
   }
 
   // Custom validator for password strength
@@ -74,30 +90,37 @@ export class RegisterComponent implements OnInit {
 
     const formData = this.registerForm.value;
     const baseUrl = window.location.origin;
-    this.http.post<{ message: string }>(`http://127.0.0.1:8000/accounts/register/`, { ...formData, baseUrl }).subscribe(
-      response => {
-        console.log('Registration successful', response);
-         // Show success message and redirect to login
-        this.message = response.message;
-        this.isLoading = false;
-        //  this.isRegisterDisabled = true;
-      },
-      error => {
-        console.error('Registration failed', error);
-        this.isLoading = false;
-        if (error.error && error.error.errors) {
-          const errors = error.error.errors;
-          if (errors.username) {
-            this.registerForm.controls['username'].setErrors({ serverError: errors.username[0] });
-          }
-          if (errors.email) {
-            this.registerForm.controls['email'].setErrors({ serverError: errors.email[0] });
-          }
-          if (errors.password2) {
-            this.registerForm.controls['password2'].setErrors({ serverError: errors.password2[0] });
-          }
-        }
+
+    this.http.post<RegisterResponse>(`http://127.0.0.1:8000/user/register/`, 
+      { ...formData, password: formData.password1, baseUrl },
+    ).subscribe((data) => {
+      console.log('Registration successful', data);
+      this.successMessage = 'User was created.';
+      this.isLoading = false;
+    },
+    (error) => {
+      console.error('Error occurred:', error);
+      this.isLoading = false;
+      if (error.status === 400 && error.error && error.error.username) {
+        this.errorMessage = error.error.username[0]; // Set errorMessage to the username error
+        this.registerForm.controls['username'].setErrors({ serverError: error.error.username[0] });
+      } else if (error.status === 400 && error.error && error.error.email) {
+        this.errorMessage = error.error.email[0]; // Set errorMessage to the email error
+        this.registerForm.controls['email'].setErrors({ serverError: error.error.email[0] });
+      } else {
+        this.errorMessage = 'An error occurred during registration';
       }
-    );
+    });
+    this.isLoading = false;
+  }
+
+  navigateToHome (event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/home']);
+  }
+
+  clearAlert (): void {
+    this.errorMessage = null;
+    this.successMessage = null;
   }
 }

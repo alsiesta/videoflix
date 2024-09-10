@@ -29,6 +29,7 @@ export class UserResetPasswordComponent implements OnInit {
     private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient
   ) {
     this.resetPasswordForm = this.fb.group({
+      username: ['', Validators.required],
       oldPassword: ['', [Validators.required]],
       newPassword: ['', [Validators.required, Validators.minLength(2)]],
       confirmPassword: ['', [Validators.required, Validators.minLength(2)]]
@@ -49,6 +50,7 @@ export class UserResetPasswordComponent implements OnInit {
 
   ngOnInit () {
     this.token = localStorage.getItem('token') || '';
+
   }
 
 

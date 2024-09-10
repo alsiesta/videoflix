@@ -7,6 +7,7 @@ import { ActivationComponent } from './pages/activation/activation.component';
 import { AuthGuard } from './services/auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { UserResetPasswordComponent } from './pages/user-reset-password/user-reset-password.component';
+import { UserconfirmnewpasswordComponent } from './pages/user-confirm-new-password/user-confirm-new-password.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -14,7 +15,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'login/:uidb64/:token', component: LoginComponent },
   { path: 'user_reset_password', component: UserResetPasswordComponent, canActivate: [AuthGuard]  },
-  { path: 'reset/:uidb64/:token', component: UserResetPasswordComponent },
+  { path: 'reset/:uidb64/:token', component: UserconfirmnewpasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
 ];
 
