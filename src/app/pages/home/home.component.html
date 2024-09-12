@@ -10,33 +10,97 @@
         <div class="bg-blue-500 opacity-40" style="flex: 3 3 0%;">
             <!-- Content for the upper div -->
         </div>
-         <!-- Lower div taking 1/4 of the height -->
-         <div class="bg-green-300 opacity-60 flex items-center relative" style="flex: 1 1 0%;">
-            <!-- Left arrow for scrolling -->
-            <div class="absolute left-0 h-full flex items-center">
-                <button class="bg-gray-800 text-white p-2 rounded-full" (click)="scrollLeft()">
-                    &#9664;
-                </button>
-            </div>
-            <!-- Container for the nested divs -->
-            <div id="videos" class="flex gap-2 overflow-x-auto scrollbar-hide w-full px-10">
-                <!-- Nested video elements -->
-                <div *ngFor="let video of videos" class="bg-red-500 w-60 h-40 flex-shrink-0">
-                    <img [src]="video.imagepath" alt="Video Thumbnail" class="w-full h-full">
+
+        <div *ngIf="groupedVideosKeys.length > 0; else noVideosTemplate">
+            <!-- Loop through each group (category) -->
+            <ng-container *ngFor="let category of groupedVideos | keyvalue">
+                
+                <!-- Carousel for each category -->
+                <div class="bg-green-300 opacity-60 flex flex-col justify-center items-start relative" style="flex: 1 1 0%;">
+                    
+                    <h2 class="text-3xl ml-10 pb-3 font-bold text-center text-blue-500">{{ category.key }}</h2><!-- Display the category name -->
+
+                    <div id="animation-carousel" class="relative w-full" data-carousel="static">
+                        <div id="{{ category.key }}" class="flex gap-2 overflow-x-auto scrollbar-hide w-full px-10">
+                            <div *ngFor="let video of category.value" class="bg-red-500 w-60 h-40 flex-shrink-0">
+                                <img [src]="video.imagepath" alt="Video Thumbnail" class="w-full h-full">
+                            </div>
+                        </div>
+
+                        <!-- Slider Controls -->
+                        <button type="button"
+                            class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                            data-carousel-prev (click)="scrollLeft(category.key)">
+                            <span
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black group-hover:bg-gray-700 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-lilac dark:text-lilac rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M5 1 1 5l4 4" />
+                                </svg>
+                                <span class="sr-only">Previous</span>
+                            </span>
+                        </button>
+                        <button type="button"
+                            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                            data-carousel-next (click)="scrollRight(category.key)">
+                            <span
+                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black group-hover:bg-gray-700 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                                <svg class="w-4 h-4 text-lilac dark:text-lilac rtl:rotate-180" aria-hidden="true"
+                                    xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="m1 9 4-4-4-4" />
+                                </svg>
+                                <span class="sr-only">Next</span>
+                            </span>
+                        </button>
+                    </div>
                 </div>
-                <!-- <div *ngFor="let video of videos" class="bg-red-500 w-60 h-40 flex-shrink-0">
-                    <video controls class="w-full h-full">
-                        <source [src]="video.imagepath" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
-                </div> -->
-            </div>
-            <!-- Right arrow for scrolling -->
-            <div class="absolute right-0 h-full flex items-center">
-                <button class="bg-gray-800 text-white p-2 rounded-full" (click)="scrollRight()">
-                    &#9654;
+            </ng-container>
+        </div>
+        <ng-template #noVideosTemplate>
+            <p>No videos available.</p>
+        </ng-template>
+
+        <!-- Lower div taking 1/4 of the height
+        <div class="bg-green-300 opacity-60 flex flex-col justify-center items-start relative" style="flex: 1 1 0%;">
+            <h1 class="text-3xl ml-10 pb-3 font-bold text-center text-blue-500">Hello</h1>
+
+            <div id="animation-carousel" class="relative w-full" data-carousel="static">
+                <div id="videos" class="flex gap-2 overflow-x-auto scrollbar-hide w-full px-10">
+                    <div *ngFor="let video of videos" class="bg-red-500 w-60 h-40 flex-shrink-0">
+                        <img [src]="video.imagepath" alt="Video Thumbnail" class="w-full h-full">
+                    </div>
+                </div>
+
+                
+                <button type="button"
+                    class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                    data-carousel-prev (click)="scrollLeft()">
+                    <span
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black group-hover:bg-gray-700 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-4 h-4 text-lilac dark:text-lilac rtl:rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 1 1 5l4 4" />
+                        </svg>
+                        <span class="sr-only">Previous</span>
+                    </span>
+                </button>
+                <button type="button"
+                    class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+                    data-carousel-next (click)="scrollRight()">
+                    <span
+                        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-black group-hover:bg-gray-700 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+                        <svg class="w-4 h-4 text-lilac dark:text-lilac rtl:rotate-180" aria-hidden="true"
+                            xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="m1 9 4-4-4-4" />
+                        </svg>
+                        <span class="sr-only">Next</span>
+                    </span>
                 </button>
             </div>
-        </div>
+        </div> -->
     </div>
 </div>

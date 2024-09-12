@@ -27,14 +27,40 @@ export class HomeComponent implements OnInit {
   private readonly BASE_URL = 'http://127.0.0.1:8000';
   videos: Video[] = [];
   error: string | null = null;
+  groupedVideos: { [key: string]: any[] } = {};
+  get groupedVideosKeys(): string[] {
+    return Object.keys(this.groupedVideos);
+  }
+  constructor (private http: HttpClient) { }
 
-  constructor(private http: HttpClient) {}
-
-  async ngOnInit() {
+  async ngOnInit () {
     await this.loadVideos();
+    this.groupVideosByCategory();
+}
+
+  groupVideosByCategory (): void {
+    
+    this.videos.forEach(video => {
+      video.categories.forEach(category => {
+        if (!this.groupedVideos[category.name]) {
+          this.groupedVideos[category.name] = [];
+        }
+        this.groupedVideos[category.name].push(video);
+      });
+    });
+    console.log('Grouped Videos:', this.groupedVideos); // Log the grouped videos
+
+    // Log each key of groupedVideos
+    // Object.keys(this.groupedVideos).forEach(key => {
+    //   console.log('Category:', key);
+    //   console.log('Videos:', this.groupedVideos[key].forEach(video => {
+    //     console.log('Video Details:', video.imagepath);
+    //   }));
+    // });
   }
 
-  private async loadVideos() {
+
+  private async loadVideos () {
     try {
       const videos = await this.getVideos();
       this.videos = videos.map(video => ({
@@ -48,12 +74,12 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  private getVideos(): Promise<Video[]> {
+  private getVideos (): Promise<Video[]> {
     const url = `${environment.baseUrl}/videos/`;
     return lastValueFrom(this.http.get<Video[]>(url));
   }
 
-  private handleError(error: any) {
+  private handleError (error: any) {
     if (error instanceof HttpErrorResponse) {
       this.error = error.error.error || error.error.message || error.error.detail || 'Fehler beim Laden der Videos';
     } else if (error instanceof TypeError) {
@@ -65,17 +91,19 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  scrollLeft() {
-    this.scroll('left');
+  scrollLeft (id: string) {
+    this.scroll('left', id);
   }
 
-  scrollRight() {
-    this.scroll('right');
+  scrollRight (id: string) {
+    this.scroll('right', id);
   }
 
-  private scroll(direction: 'left' | 'right') {
-    const container = document.getElementById('videos');
+  private scroll (direction: 'left' | 'right', id: string) {
+    const container = document.getElementById(id);
     const scrollAmount = direction === 'left' ? -200 : 200;
     container?.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   }
+
+  
 }
