@@ -2,21 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { lastValueFrom } from 'rxjs';
+import { Video } from 'src/app/models/models';
 
-interface Category {
-  id: number;
-  name: string;
-}
-
-interface Video {
-  id: number;
-  title: string;
-  description: string;
-  created_at: string;
-  categories: Category[];
-  path: string;
-  imagepath: string;
-}
 
 @Component({
   selector: 'app-home',
@@ -31,6 +18,7 @@ export class HomeComponent implements OnInit {
   get groupedVideosKeys(): string[] {
     return Object.keys(this.groupedVideos);
   }
+
   constructor (private http: HttpClient) { }
 
   async ngOnInit () {
@@ -39,7 +27,6 @@ export class HomeComponent implements OnInit {
 }
 
   groupVideosByCategory (): void {
-    
     this.videos.forEach(video => {
       video.categories.forEach(category => {
         if (!this.groupedVideos[category.name]) {
@@ -48,15 +35,7 @@ export class HomeComponent implements OnInit {
         this.groupedVideos[category.name].push(video);
       });
     });
-    console.log('Grouped Videos:', this.groupedVideos); // Log the grouped videos
-
-    // Log each key of groupedVideos
-    // Object.keys(this.groupedVideos).forEach(key => {
-    //   console.log('Category:', key);
-    //   console.log('Videos:', this.groupedVideos[key].forEach(video => {
-    //     console.log('Video Details:', video.imagepath);
-    //   }));
-    // });
+    // console.log('Grouped Videos:', this.groupedVideos); // Log the grouped videos
   }
 
 
@@ -68,7 +47,7 @@ export class HomeComponent implements OnInit {
         path: `${this.BASE_URL}/${video.path}`,
         imagepath: `${this.BASE_URL}/${video.imagepath}`
       }));
-      console.log(this.videos);
+      // console.log(this.videos);
     } catch (error) {
       this.handleError(error);
     }

@@ -37,9 +37,10 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.router.events.subscribe(event => {
         if (event instanceof NavigationEnd) {
+          const videoIdPattern = /^\/video\/\d+$/;
           this.isLoggingIn = event.url === '/login';
           this.isRegistering = event.url === '/register';
-          this.isSignedIn = event.url === '/home' || event.url === '/user_reset_password';
+          this.isSignedIn = event.url === '/home' || event.url === '/user_reset_password' || videoIdPattern.test(event.url);
         }
       })
     );
@@ -59,6 +60,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['/register']);
     this.authService.setRegistering(true);
     this.authService.setLoggingIn(false);
+  }
+
+  navigateToHome (event: Event) {
+    event.preventDefault();
+    this.router.navigate(['/home']);
   }
 
   logout(event: Event) {

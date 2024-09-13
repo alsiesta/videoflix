@@ -31,9 +31,12 @@
               "src/web.config"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "node_modules/video.js/dist/video-js.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/video.js/dist/video.js",
+              "node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.js"]
           },
           "configurations": {
             "production": {

@@ -16,6 +16,10 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { UserResetPasswordComponent } from './pages/user-reset-password/user-reset-password.component';
 import { UserconfirmnewpasswordComponent } from './pages/user-confirm-new-password/user-confirm-new-password.component';
+import { CategoryCarouselComponent } from './pages/category-carousel/category-carousel.component';
+import { VideodetailComponent } from './pages/videodetail/videodetail.component';
+import { VideoPlayerComponent } from './utils/video-player/video-player.component';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +30,10 @@ import { UserconfirmnewpasswordComponent } from './pages/user-confirm-new-passwo
     ActivationComponent,
     HomeComponent,
     UserResetPasswordComponent,
-    UserconfirmnewpasswordComponent
+    UserconfirmnewpasswordComponent,
+    CategoryCarouselComponent,
+    VideodetailComponent,
+    VideoPlayerComponent
   ],
   imports: [
     BrowserModule,
