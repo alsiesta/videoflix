@@ -4,18 +4,17 @@
 <div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/95 via-black/40 to-black/95"></div>
 <div class="w-full md:w-12/12 absolute p-12 right-0 left-0 bg-black my-36 mx-auto text-white rounded-lg bg-opacity-70 flex flex-col items-center justify-center">
 
-  <!-- <button (click)="navigateToHome($event)"
-    class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-700">Return to Homepage</button> -->
-
-  <!-- Video Details -->
-  <!-- 
-  <video controls class="w-full h-auto mb-4 rounded-md">
-    <source *ngIf="video?.path" [src]="getSanitizedUrl(video?.path)" type="video/mp4">
-    Your browser does not support the video tag.
-  </video> -->
+  
+ <!-- Left Arrow Icon -->
+ <div (click)="navigateToHome($event)" class="cursor-pointer self-start ml-4">
+  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-white hover:text-green-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+  </svg>
+</div>
   <div>
-    <app-video-player [videoSrc]="'http://127.0.0.1:8000/media/videos/freimarkt_master.m3u8'"></app-video-player>
+    <app-video-player [videoSrc]="video?.path || ''"></app-video-player>
   </div>
-  Video
+  <p>Title: {{video?.title}}</p>
+  <p>Description: {{video?.description}}</p>
 
 </div>
