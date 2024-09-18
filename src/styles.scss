@@ -1,3 +1,69 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html, body {
+  background-color: black;
+  color: white; /* Optional: Set text color to white for better contrast */
+  font-family: 'Roboto', 'Helvetica Neue', sans-serif;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  // Default styles for web
+  // font-size: 20px;
+  font-size: clamp(16px, 1.25vw, 20px);
+}
+
+$green: #70E61C;
+$white: #ffffff;
+$darkblue: #141D2F;
+$bluegrey: #ECEFF1;
+$blue: #0078d4;
+$purple: #9747FF;
+$green: #70E61C;
+$green-transparent: rgba(112, 230, 28, 0.543);
+$red: #E61C40;
+$grey: #555f71;
+
+
+h1 {
+  // font-size: 2rem;
+  font-size: clamp(22px, 2.5vw, 32px);
+  line-height: 2.2rem;
+  color: $green;
+}
+
+h2 {
+  // font-size: 1.6rem;
+  font-size: clamp(20px, 2vw, 28px); 
+  line-height: 1.9rem;
+  color: $purple;
+}
+
+h3 {
+  // font-size: 1.3rem;
+  font-size: clamp(18px, 1.75vw, 24px);
+  line-height: 1.6rem;
+  color: $purple;
+}
+
+.main_container {
+  padding: 20px;
+  margin: 30px 30px;
+}
+
+.haboro-regular {
+  font-family: 'Roboto' !important;
+  font-weight: 300 !important;
+  }
+  
+  .haboro-book {
+  font-family: 'Roboto' !important;
+  font-weight: 400 !important;
+  }
+  
+  .haboro-black {
+  font-family: 'Roboto' !important;
+  font-weight: 900 !important;
+  }

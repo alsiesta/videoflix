@@ -19,6 +19,9 @@ import { UserconfirmnewpasswordComponent } from './pages/user-confirm-new-passwo
 import { CategoryCarouselComponent } from './pages/category-carousel/category-carousel.component';
 import { VideodetailComponent } from './pages/videodetail/videodetail.component';
 import { VideoPlayerComponent } from './utils/video-player/video-player.component';
+import { FooterComponent } from './pages/footer/footer.component';
+import { DatenschutzComponent } from './pages/datenschutz/datenschutz.component';
+import { ImpressumComponent } from './pages/impressum/impressum.component';
 
 
 @NgModule({
@@ -33,7 +36,10 @@ import { VideoPlayerComponent } from './utils/video-player/video-player.componen
     UserconfirmnewpasswordComponent,
     CategoryCarouselComponent,
     VideodetailComponent,
-    VideoPlayerComponent
+    VideoPlayerComponent,
+    FooterComponent,
+    DatenschutzComponent,
+    ImpressumComponent
   ],
   imports: [
     BrowserModule,
