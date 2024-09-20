@@ -20,3 +20,17 @@ export interface Video {
   path: string;
   imagepath: string;
 }
+
+export function newVideo(): Video {
+  return {
+    id: 0,
+    title: '',
+    description: '',
+    created_at: '',
+    categories: [],
+    video_file: '',
+    image_file: '',
+    path: '',
+    imagepath: ''
+  };
+}

@@ -1,0 +1,17 @@
+#background-video {
+    position: fixed;
+    top: 0; /* Position the video at the top */
+    left: 50%; /* Center the video horizontally */
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%); 
+    z-index: 0;
+    object-fit: cover; 
+    background-size: cover;
+    overflow: hidden;
+  }
+
+
+  

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { lastValueFrom } from 'rxjs';
-import { Video } from 'src/app/models/models';
+import { newVideo, Video } from 'src/app/models/models';
+import { Subscription, timer } from 'rxjs';
 
 
 @Component({
@@ -13,17 +14,28 @@ import { Video } from 'src/app/models/models';
 export class HomeComponent implements OnInit {
   private readonly BASE_URL = 'http://127.0.0.1:8000';
   videos: Video[] = [];
+  currentVideo: Video | undefined;
+  currentIndex: number = 0;
+  private timerSubscription: Subscription | undefined;
+  hero_video_path: string = 'http://127.0.0.1:8000/media/videos/people_480p.m3u8'
+  video_path: string = 'http://127.0.0.1:8000/media/videos/people.mp4'
+  hero_video: Video = newVideo();
   error: string | null = null;
   groupedVideos: { [key: string]: any[] } = {};
+
   get groupedVideosKeys(): string[] {
     return Object.keys(this.groupedVideos);
   }
+
+  
 
   constructor (private http: HttpClient) { }
 
   async ngOnInit () {
     await this.loadVideos();
+
     this.groupVideosByCategory();
+    this.initializeVideoRotation();
 }
 
   groupVideosByCategory (): void {
@@ -35,23 +47,29 @@ export class HomeComponent implements OnInit {
         this.groupedVideos[category.name].push(video);
       });
     });
-    // console.log('Grouped Videos:', this.groupedVideos); // Log the grouped videos
   }
 
 
   private async loadVideos () {
     try {
       const videos = await this.getVideos();
-      this.videos = videos.map(video => ({
+      this.videos = videos.map(video => {
+      const splitPath = video.path.split('.');
+      const basePath = splitPath[0]; // Get the base path without the extension
+      return {
         ...video,
-        path: `${this.BASE_URL}/${video.path}`,
-        imagepath: `${this.BASE_URL}/${video.imagepath}`
-      }));
-      // console.log(this.videos);
+        path: `${this.BASE_URL}/${basePath}_480p.m3u8`, // Use the base path without the extension
+        imagepath: `${this.BASE_URL}/${video.imagepath}`,
+        video_file: `${this.BASE_URL}/${basePath}.mp4`, // Use only the first part of the split path
+      };
+    });
     } catch (error) {
       this.handleError(error);
     }
   }
+
+
+
 
   private getVideos (): Promise<Video[]> {
     const url = `${environment.baseUrl}/videos/`;
@@ -84,5 +102,47 @@ export class HomeComponent implements OnInit {
     container?.scrollBy({ left: scrollAmount, behavior: 'smooth' });
   }
 
+
+  getVideoLink(): string {
+    return `/video/${this.videos[0].id}`;
+  }
+
+
+  /**
+   * Initializes the video rotation by selecting a random video and setting up a timer.
+   */
+  private initializeVideoRotation(): void {
+    if (this.videos.length > 0) {
+      // Select a random starting index
+      this.currentIndex = Math.floor(Math.random() * this.videos.length);
+      this.hero_video = this.videos[this.currentIndex];
+      console.log(this.hero_video);
+
+      // Set up a timer to change the video every 10 seconds
+      this.timerSubscription = timer(10000, 10000).subscribe(() => {
+        this.nextVideo();
+      });
+    }
+  }
+
+  /**
+   * Advances to the next video in the list. Wraps around to the start if at the end.
+   */
+  private nextVideo(): void {
+    if (this.videos.length === 0) {
+      return;
+    }
+    // Increment the index and wrap around if necessary
+    this.currentIndex = (this.currentIndex + 1) % this.videos.length;
+    this.hero_video = this.videos[this.currentIndex];
+  }
+
+
+  ngOnDestroy(): void {
+    // Clean up the timer subscription to prevent memory leaks
+    if (this.timerSubscription) {
+      this.timerSubscription.unsubscribe();
+    }
+  }
   
 }

@@ -22,6 +22,7 @@ import { VideoPlayerComponent } from './utils/video-player/video-player.componen
 import { FooterComponent } from './pages/footer/footer.component';
 import { DatenschutzComponent } from './pages/datenschutz/datenschutz.component';
 import { ImpressumComponent } from './pages/impressum/impressum.component';
+import { BackgroundVideoComponent } from './utils/background-video/background-video.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ImpressumComponent } from './pages/impressum/impressum.component';
     VideoPlayerComponent,
     FooterComponent,
     DatenschutzComponent,
-    ImpressumComponent
+    ImpressumComponent,
+    BackgroundVideoComponent
   ],
   imports: [
     BrowserModule,

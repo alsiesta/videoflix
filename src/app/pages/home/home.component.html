@@ -1,18 +1,25 @@
-<div class="absolute inset-0 w-full h-full">
-    <img src="./assets/img/escape_frame.png" alt="Video Background Image" class="w-full h-full object-cover">
-</div>
-<div class="absolute inset-0 w-full h-full bg-gradient-to-b from-black/80 via-black/20 to-black/80"></div>
-<div
-    class="w-full absolute inset-0 p-12 right-0 left-0 bg-black mx-auto text-white rounded-lg bg-opacity-20 min-h-screen">
-    <h1 class="font-bold text-3xl py-4">Home</h1>
-    <h1>{{ error }}</h1>
+<video [src]="hero_video.video_file" autoplay muted loop id="background-video"></video>
+
+<div class="fixed inset-0 w-full h-full bg-gradient-to-b from-black/80 via-black/20 to-black/80"></div>
+<div class="w-full absolute inset-0  mx-auto text-white min-h-screen">
+
+
+    <div id="hero" class="relative z-1 md:w-6/7 lg:w-5/6 mx-auto mt-20 pl-10" *ngIf="videos.length > 0">
+        <h1 class="font-bold text-3xl">{{hero_video.title}}</h1>
+        <h3 class="text-1xl text-white">{{hero_video.description}}</h3>
+        <h3>{{hero_video.video_file}}</h3>
+        <button class="absolute mt-4 px-4 py-2 bg-blue-500 text-white rounded z-30" [routerLink]="['/video/' + hero_video.id]">Watch Video</button>
+        <h1>{{ error }}</h1>
+    </div>
+
+
     <div class="absolute inset-0 flex flex-col w-full">
 
         <div id="herostage" style="min-height: 60vh;">
             <!-- Content herostage -->
         </div>
 
-        <div id="videoslist" *ngIf="groupedVideosKeys.length > 0; else noVideosTemplate" class="flex-grow">
+        <div id="videoslist" *ngIf="groupedVideosKeys.length > 0; else noVideosTemplate" class="flex-grow w-full md:w-6/7 lg:w-5/6 mx-auto">
             <!-- Video Carousels -->
             <ng-container *ngFor="let category of groupedVideos | keyvalue">
                 <app-category-carousel [category]="category"></app-category-carousel>
