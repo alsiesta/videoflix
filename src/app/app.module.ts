@@ -23,6 +23,7 @@ import { FooterComponent } from './pages/footer/footer.component';
 import { DatenschutzComponent } from './pages/datenschutz/datenschutz.component';
 import { ImpressumComponent } from './pages/impressum/impressum.component';
 import { BackgroundVideoComponent } from './utils/background-video/background-video.component';
+import { EmailverificationComponent } from './pages/emailverification/emailverification.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { BackgroundVideoComponent } from './utils/background-video/background-vi
     FooterComponent,
     DatenschutzComponent,
     ImpressumComponent,
-    BackgroundVideoComponent
+    BackgroundVideoComponent,
+    EmailverificationComponent
   ],
   imports: [
     BrowserModule,

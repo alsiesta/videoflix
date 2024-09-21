@@ -11,6 +11,7 @@ import { UserconfirmnewpasswordComponent } from './pages/user-confirm-new-passwo
 import { VideodetailComponent } from './pages/videodetail/videodetail.component';
 import { DatenschutzComponent } from './pages/datenschutz/datenschutz.component';
 import { ImpressumComponent } from './pages/impressum/impressum.component';
+import { EmailverificationComponent } from './pages/emailverification/emailverification.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
   { path: 'reset/:uidb64/:token', component: UserconfirmnewpasswordComponent },
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'video/:id', component: VideodetailComponent, canActivate: [AuthGuard] },
+  { path: 'verify-email/:uid/:token', component: EmailverificationComponent },
 ];
 
 @NgModule({

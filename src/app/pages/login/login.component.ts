@@ -5,7 +5,10 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { AuthService } from '../../services/auth.service';
 import { LoginResponse } from 'src/app/models/models';
+import { environment } from 'src/environments/environment'; // Import environment
 
+
+const BASE_URL = environment.baseUrl; // Use the BASE_URL from environment
 
 @Component({
   selector: 'app-login',
@@ -13,7 +16,7 @@ import { LoginResponse } from 'src/app/models/models';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-
+  
   username: string | null = null;
   password: string | null = null;
   isLoading: boolean = false;
@@ -41,7 +44,7 @@ export class LoginComponent implements OnInit {
   }
 
   resendActivationLink (email: string) {
-    const url = 'http://127.0.0.1:8000/resend_activation_link/';
+    const url = `${BASE_URL}/resend_activation_link/`;
     const body = { email: email };
     this.error = null;
     this.message = null;
@@ -77,8 +80,7 @@ export class LoginComponent implements OnInit {
     this.error = null;
     try {
       let resp: LoginResponse = await this.authService.loginWithUsernameAndPassword(this.username, this.password)
-      console.log('Login response: ', resp.token);
-      console.log('Complete body: ', resp);
+
       localStorage.setItem('token', resp.token);
       localStorage.setItem('username', resp.username);
       this.authService.setUsername(resp.username);
@@ -102,7 +104,7 @@ export class LoginComponent implements OnInit {
   }
 
   resetPassword () {
-    const url = 'http://127.0.0.1:8000/user/mail_reset_password/';
+    const url = `${BASE_URL}/user/mail_reset_password/`;
     const body = { email: this.resetEmail };
     this.error = null;
     this.message = null;
