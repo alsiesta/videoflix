@@ -66,16 +66,33 @@ export class HomeComponent implements OnInit {
     } catch (error) {
       this.handleError(error);
     }
+    // console.log(this.videos);
   }
 
 
 
 
-  private getVideos (): Promise<Video[]> {
+  // private getVideos (): Promise<Video[]> {
+  //   const url = `${environment.baseUrl}/videos/`;
+  //   return lastValueFrom(this.http.get<Video[]>(url));
+  // }
+
+  private async getVideos(): Promise<Video[]> {
     const url = `${environment.baseUrl}/videos/`;
-    return lastValueFrom(this.http.get<Video[]>(url));
+    try {
+      const videos = await lastValueFrom(this.http.get<Video[]>(url));
+      console.log('Fetched videos:', videos);
+      return videos;
+    } catch (error) {
+      if (error instanceof HttpErrorResponse) {
+        console.error('HTTP Error:', error.message);
+      } else {
+        console.error('Unknown Error:', error);
+      }
+      throw error; // Re-throw the error after logging it
+    }
   }
-
+  
   private handleError (error: any) {
     if (error instanceof HttpErrorResponse) {
       this.error = error.error.error || error.error.message || error.error.detail || 'Fehler beim Laden der Videos';

@@ -18,8 +18,9 @@
         <div id="herostage" style="min-height: 60vh;">
             <!-- Content herostage -->
         </div>
+ 
 
-        <div id="videoslist" *ngIf="groupedVideosKeys.length > 0; else noVideosTemplate" class="flex-grow w-full md:w-6/7 lg:w-5/6 mx-auto">
+        <div id="videoslist" *ngIf="groupedVideosKeys.length > 0; else noVideosTemplate" class="flex-grow w-full mx-auto">
             <!-- Video Carousels -->
             <ng-container *ngFor="let category of groupedVideos | keyvalue">
                 <app-category-carousel [category]="category"></app-category-carousel>
@@ -28,6 +29,10 @@
         
         <ng-template #noVideosTemplate>
             <p class="text-center text-2xl mt-5">No videos available.</p>
+            <p class="text-center text-2xl mt-5">Use the Django Backend to upload videos first!</p>
         </ng-template>
+        <div>.<br>.<br>.<br>
+        </div>
     </div>
+    
 </div>
