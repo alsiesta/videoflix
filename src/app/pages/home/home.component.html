@@ -1,38 +1,35 @@
 <video [src]="hero_video.video_file" autoplay muted loop id="background-video"></video>
 
-<div class="fixed inset-0 w-full h-full bg-gradient-to-b from-black/80 via-black/20 to-black/80"></div>
-<div class="w-full absolute inset-0  mx-auto text-white min-h-screen">
+<div class="fixed z-1 inset-0 w-full h-full bg-gradient-to-b from-black/100 via-black/50 to-black/100"></div>
 
+<div id="homestage" class="w-full min-h-screen flex flex-col text-white">
 
-    <div id="hero" class="relative z-1 md:w-6/7 lg:w-5/6 mx-auto mt-20 pl-10" *ngIf="videos.length > 0">
-        <h1 class="font-bold text-3xl">{{hero_video.title}}</h1>
-        <h3 class="text-1xl text-white">{{hero_video.description}}</h3>
-        <h3>{{hero_video.video_file}}</h3>
-        <button class="absolute mt-4 px-4 py-2 bg-blue-500 text-white rounded z-30" [routerLink]="['/video/' + hero_video.id]">Watch Video</button>
-        <h1>{{ error }}</h1>
-    </div>
-
-
-    <div class="absolute inset-0 flex flex-col w-full">
-
-        <div id="herostage" style="min-height: 60vh;">
-            <!-- Content herostage -->
-        </div>
- 
-
-        <div id="videoslist" *ngIf="groupedVideosKeys.length > 0; else noVideosTemplate" class="flex-grow w-full mx-auto">
-            <!-- Video Carousels -->
-            <ng-container *ngFor="let category of groupedVideos | keyvalue">
-                <app-category-carousel [category]="category"></app-category-carousel>
-            </ng-container>
-        </div>
-        
-        <ng-template #noVideosTemplate>
-            <p class="text-center text-2xl mt-5">No videos available.</p>
-            <p class="text-center text-2xl mt-5">Use the Django Backend to upload videos first!</p>
-        </ng-template>
-        <div>.<br>.<br>.<br>
+    <div id="herostage" class="flex flex-col justify-end h-[50vh] w-full">
+        <!-- Content herostage -->
+        <div id="hero" class="relative z-1 md:w-6/7 lg:w-5/6 mx-auto mt-20" *ngIf="videos.length > 0">
+            <div>
+                <h1 class="font-bold text-3xl">{{hero_video.title}}</h1>
+                <h3 class="text-1xl text-white">{{hero_video.description}}</h3>
+                <div class="mb-16 mt-3">
+                    <button class="px-4 py-2 bg-blue-500 text-white rounded z-30"
+                        [routerLink]="['/video/' + hero_video.id]">Watch Video</button>
+                </div>
+                <h1>{{ error }}</h1>
+            </div>
         </div>
     </div>
-    
+
+    <div id="videoslist" *ngIf="groupedVideosKeys.length > 0; else noVideosTemplate" class="flex-grow w-full mx-auto overflow-y-auto">
+        <!-- Video Carousels -->
+        <ng-container *ngFor="let category of groupedVideos | keyvalue">
+            <app-category-carousel [category]="category"></app-category-carousel>
+        </ng-container>
+    </div>
+
+    <ng-template #noVideosTemplate>
+        <p class="text-center text-2xl mt-5">No videos available.</p>
+        <p class="text-center text-2xl mt-5">Use the Django Backend to upload videos first!</p>
+    </ng-template>
+
+    <div class="h-[100px] w-full"></div>
 </div>
