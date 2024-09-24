@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { lastValueFrom } from 'rxjs';
@@ -12,6 +12,8 @@ import { Subscription, timer } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
+  @ViewChild('backgroundVideo') backgroundVideo!: ElementRef<HTMLVideoElement>;
+
   private readonly BASE_URL = 'http://127.0.0.1:8000';
   videos: Video[] = [];
   currentVideo: Video | undefined;
@@ -33,9 +35,17 @@ export class HomeComponent implements OnInit {
 
   async ngOnInit () {
     await this.loadVideos();
-
     this.groupVideosByCategory();
     this.initializeVideoRotation();
+}
+
+ngAfterViewInit() {
+  // Ensure the video is muted when metadata is loaded
+  if (this.backgroundVideo && this.backgroundVideo.nativeElement) {
+    this.backgroundVideo.nativeElement.addEventListener('loadedmetadata', () => {
+      this.backgroundVideo.nativeElement.muted = true;
+    });
+  }
 }
 
   groupVideosByCategory (): void {
