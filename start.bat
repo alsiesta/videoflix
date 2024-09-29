@@ -1,6 +1,6 @@
 @echo off
 echo Installing dependencies...
-npm install
-
-echo Starting Angular server...
-ng serve --open
+npm install && (
+    echo Starting Angular server...
+    ng serve --open
+)
