@@ -1,8 +1,10 @@
-# Videoflix
+# Videoflix Frontend
+Public repository: https://github.com/alsiesta/videoflix
 
 Videoflix is a video streaming application built with Angular. This project allows users to browse, watch, and manage videos. 
 
-This app uses a backend provided by a Django Web App which serves user registration, password reset, video management, and more.
+This app uses a backend which provides a Django Backend App serving user registration, password reset, video management, and more. Download it here: https://github.com/alsiesta/videoflix-bknd
+
 
 ## Getting Started
 
@@ -16,30 +18,37 @@ To get started with the project, follow these steps:
 
 Run `ng serve` for a development server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
 
-## Code Scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
-
-## Running Unit Tests
-
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running End-to-End Tests
-
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
 ## Environment Variables
 
 The project uses environment variables defined in the `.env` file. For example, the `BASE_URL` is set to `http://127.0.0.1:8000`.
 
-## Further Help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Key Directories and Files
 
-## Project Structure
+- **.vscode/**: Contains Visual Studio Code specific settings and tasks.
+- **src/**: Contains the source code of the application.
+  - **app/**: Contains the main application code.
+    - **app-routing.module.ts**: Defines the routes for the application.
+    - **app.component.\***: The root component of the application.
+    - **app.module.ts**: The main module of the application.
+    - **browse/**: Contains components related to browsing videos.
+    - **models/**: Contains data models used in the application.
+    - **pages/**: Contains different pages of the application.
+      - **home/**: Contains the home page components.
+      - **videodetail/**: Contains the video detail page components.
+    - **utils/**: Contains utility components like background video and video player.
+  - **assets/**: Contains static assets like images.
+  - **environments/**: Contains environment-specific configuration files.
+  - **index.html**: The main HTML file of the application.
+  - **main.ts**: The main entry point of the application.
+  - **styles.scss**: Global styles for the application.
+- **start.bat**: A batch file to start the development server.
+- **tailwind.config.js**: Configuration file for Tailwind CSS.
+- **tsconfig.\***: TypeScript configuration files.
+- **videoflix.code-workspace**: Workspace configuration for Visual Studio Code.
+- **web.config**: Configuration file for web server settings.
 
-The project has the following structure:
+## License
+
+This project is licensed under the MIT License.
+
