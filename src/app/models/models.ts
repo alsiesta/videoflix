@@ -3,6 +3,7 @@ export interface LoginResponse {
   user_id: number;
   email: string;
   username: string;
+  x_csrftoken?: string;
 }
 
 interface Category {

@@ -1,6 +1,6 @@
 // declare var google: any;
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, lastValueFrom } from 'rxjs';
 import { LoginResponse } from '../models/models';
 import { environment } from 'src/environments/environment';
@@ -23,16 +23,38 @@ export class AuthService {
   username$ = this.usernameSubject.asObservable();
   error$ = this.errorSubject.asObservable();
 
-  loginWithUsernameAndPassword (username: string, password: string) {
+  loginWithUsernameAndPassword(username: string, password: string) {
     const url = environment.baseUrl + "/login/";
     const body = {
       "username": username,
       "password": password
-    }
-    // console.log(url, body);
-    return lastValueFrom(this.http.post<LoginResponse>(url, body))
-      .then(response => {
-        return response;
+    };
+
+    return lastValueFrom(this.http.post<LoginResponse>(url, body, { observe: 'response' }))
+      .then((response: HttpResponse<LoginResponse>) => {
+        // Log all headers to verify
+        response.headers.keys().forEach(key => {
+          console.log(`${key}: ${response.headers.get(key)}`);
+        });
+
+        const csrfToken = response.headers.get('X-Csrftoken'); // Use exact case
+        console.log('CSRF Token:', csrfToken); // Log the CSRF token
+
+        if (csrfToken) {
+          localStorage.setItem('x-csrftoken', csrfToken);
+        }
+        const responseBody = response.body;
+        if (!responseBody) {
+          throw new Error('Response body is null');
+        }
+        const loginResponse: LoginResponse = {
+          token: responseBody.token,
+          user_id: responseBody.user_id,
+          email: responseBody.email,
+          username: responseBody.username,
+          x_csrftoken: csrfToken ?? undefined // Ensure x_csrftoken is string or undefined
+        };
+        return loginResponse;
       })
       .catch((error: HttpErrorResponse) => {
         this.handleHttpError(error);
@@ -40,7 +62,7 @@ export class AuthService {
       });
   }
 
-  handleHttpError(error: HttpErrorResponse): void {
+  handleHttpError (error: HttpErrorResponse): void {
     let errorMessage = 'An unexpected error occurred';
 
     if (error.error) {

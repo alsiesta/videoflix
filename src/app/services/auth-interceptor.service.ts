@@ -6,18 +6,25 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class AuthInterceptorService implements HttpInterceptor{
+export class AuthInterceptorService implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const token = localStorage.getItem('token');
-    if (token) {
-      req = req.clone({
-        setHeaders: {
-          Authorization: `Token ${token}`
-        }
-      });
-    }
-    return next.handle(req);
-  }
+    const csrfToken = localStorage.getItem('x-csrftoken');
 
+    let headers = req.headers;
+    if (token) {
+      headers = headers.set('Authorization', `Token ${token}`);
+    }
+    if (csrfToken) {
+      headers = headers.set('X-Csrftoken', csrfToken); // Ensure exact case
+    }
+
+    const clonedReq = req.clone({ headers });
+
+    // Log the headers to verify
+    console.log('Request Headers:', clonedReq.headers.keys().map(key => `${key}: ${clonedReq.headers.get(key)}`));
+
+    return next.handle(clonedReq);
+  }
 }
