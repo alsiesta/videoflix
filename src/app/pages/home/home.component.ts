@@ -14,22 +14,23 @@ import { Subscription, timer } from 'rxjs';
 export class HomeComponent implements OnInit {
   @ViewChild('backgroundVideo') backgroundVideo!: ElementRef<HTMLVideoElement>;
 
-  private readonly BASE_URL = 'http://127.0.0.1:8000';
+  private readonly BASE_URL = environment.baseUrl;
+
   videos: Video[] = [];
   currentVideo: Video | undefined;
   currentIndex: number = 0;
   private timerSubscription: Subscription | undefined;
-  hero_video_path: string = 'http://127.0.0.1:8000/media/videos/people_480p.m3u8'
-  video_path: string = 'http://127.0.0.1:8000/media/videos/people.mp4'
+  hero_video_path: string = `${this.BASE_URL}/media/videos/people_480p.m3u8`;
+  video_path: string = `${this.BASE_URL}/media/videos/people.mp4`;
   hero_video: Video = newVideo();
   error: string | null = null;
   groupedVideos: { [key: string]: any[] } = {};
 
-  get groupedVideosKeys(): string[] {
+  get groupedVideosKeys (): string[] {
     return Object.keys(this.groupedVideos);
   }
 
-  
+
 
   constructor (private http: HttpClient) { }
 
@@ -37,16 +38,16 @@ export class HomeComponent implements OnInit {
     await this.loadVideos();
     this.groupVideosByCategory();
     this.initializeVideoRotation();
-}
-
-ngAfterViewInit() {
-  // Ensure the video is muted when metadata is loaded
-  if (this.backgroundVideo && this.backgroundVideo.nativeElement) {
-    this.backgroundVideo.nativeElement.addEventListener('loadedmetadata', () => {
-      this.backgroundVideo.nativeElement.muted = true;
-    });
   }
-}
+
+  ngAfterViewInit () {
+    // Ensure the video is muted when metadata is loaded
+    if (this.backgroundVideo && this.backgroundVideo.nativeElement) {
+      this.backgroundVideo.nativeElement.addEventListener('loadedmetadata', () => {
+        this.backgroundVideo.nativeElement.muted = true;
+      });
+    }
+  }
 
   groupVideosByCategory (): void {
     this.videos.forEach(video => {
@@ -64,30 +65,24 @@ ngAfterViewInit() {
     try {
       const videos = await this.getVideos();
       this.videos = videos.map(video => {
-      const splitPath = video.path.split('.');
-      const basePath = splitPath[0]; // Get the base path without the extension
-      return {
-        ...video,
-        path: `${this.BASE_URL}/${basePath}_480p.m3u8`, // Use the base path without the extension
-        imagepath: `${this.BASE_URL}/${video.imagepath}`,
-        video_file: `${this.BASE_URL}/${basePath}.mp4`, // Use only the first part of the split path
-      };
-    });
+        const splitPath = video.path.split('.');
+        const basePath = splitPath[0]; // Get the base path without the extension
+        return {
+          ...video,
+          path: `${this.BASE_URL}/${basePath}_480p.m3u8`, // Use the base path without the extension
+          imagepath: `${this.BASE_URL}/${video.imagepath}`,
+          video_file: `${this.BASE_URL}/${basePath}.mp4`, // Use only the first part of the split path
+        };
+      });
     } catch (error) {
       this.handleError(error);
     }
-    // console.log(this.videos);
   }
 
 
 
 
-  // private getVideos (): Promise<Video[]> {
-  //   const url = `${environment.baseUrl}/videos/`;
-  //   return lastValueFrom(this.http.get<Video[]>(url));
-  // }
-
-  private async getVideos(): Promise<Video[]> {
+  private async getVideos (): Promise<Video[]> {
     const url = `${environment.baseUrl}/videos/`;
     try {
       const videos = await lastValueFrom(this.http.get<Video[]>(url));
@@ -102,7 +97,7 @@ ngAfterViewInit() {
       throw error; // Re-throw the error after logging it
     }
   }
-  
+
   private handleError (error: any) {
     if (error instanceof HttpErrorResponse) {
       this.error = error.error.error || error.error.message || error.error.detail || 'Fehler beim Laden der Videos';
@@ -130,7 +125,7 @@ ngAfterViewInit() {
   }
 
 
-  getVideoLink(): string {
+  getVideoLink (): string {
     return `/video/${this.videos[0].id}`;
   }
 
@@ -138,7 +133,7 @@ ngAfterViewInit() {
   /**
    * Initializes the video rotation by selecting a random video and setting up a timer.
    */
-  private initializeVideoRotation(): void {
+  private initializeVideoRotation (): void {
     if (this.videos.length > 0) {
       // Select a random starting index
       this.currentIndex = Math.floor(Math.random() * this.videos.length);
@@ -155,7 +150,7 @@ ngAfterViewInit() {
   /**
    * Advances to the next video in the list. Wraps around to the start if at the end.
    */
-  private nextVideo(): void {
+  private nextVideo (): void {
     if (this.videos.length === 0) {
       return;
     }
@@ -165,11 +160,11 @@ ngAfterViewInit() {
   }
 
 
-  ngOnDestroy(): void {
+  ngOnDestroy (): void {
     // Clean up the timer subscription to prevent memory leaks
     if (this.timerSubscription) {
       this.timerSubscription.unsubscribe();
     }
   }
-  
+
 }
