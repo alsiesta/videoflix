@@ -35,6 +35,7 @@ export class HomeComponent implements OnInit {
   constructor (private http: HttpClient) { }
 
   async ngOnInit () {
+    console.log('Base URL:', this.BASE_URL);
     await this.loadVideos();
     this.groupVideosByCategory();
     this.initializeVideoRotation();
