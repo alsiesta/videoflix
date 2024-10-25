@@ -24,7 +24,7 @@ export class UserResetPasswordComponent implements OnInit {
   error: string | null = null;
 
 
-  constructor(
+  constructor (
     private fb: FormBuilder,
     private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient
   ) {
@@ -36,7 +36,7 @@ export class UserResetPasswordComponent implements OnInit {
     }, { validator: this.passwordsMatchValidator });
   }
 
-  passwordsMatchValidator(form: FormGroup) {
+  passwordsMatchValidator (form: FormGroup) {
     const newPassword = form.get('newPassword')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
 
@@ -55,7 +55,7 @@ export class UserResetPasswordComponent implements OnInit {
 
 
 
-  onSubmit() {
+  onSubmit () {
     if (this.resetPasswordForm.valid) {
       const oldPassword = this.resetPasswordForm.get('oldPassword')?.value;
       const newPassword = this.resetPasswordForm.get('newPassword')?.value;
@@ -90,14 +90,14 @@ export class UserResetPasswordComponent implements OnInit {
   }
 
   logout (event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
     localStorage.removeItem('token');
     this.authService.setUsername(null);
     this.router.navigate(['/login']);
   }
 
   navigateToHome (event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
     this.router.navigate(['/home']);
   }
 

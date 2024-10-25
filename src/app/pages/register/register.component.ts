@@ -4,7 +4,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { environment } from '../../../environments/environment';
 
-const BASE_URL = environment.baseUrl; 
+const BASE_URL = environment.baseUrl;
 
 interface RegisterResponse {
   user_id: number;
@@ -79,17 +79,17 @@ export class RegisterComponent implements OnInit {
     return this.registerForm.controls;
   }
 
-  onSubmit() {
+  onSubmit () {
     this.submitted = true;
     if (this.registerForm.invalid) {
       return;
     }
-  
+
     this.isLoading = true;
     const formData = this.registerForm.value;
     const baseUrl = window.location.origin;
-  
-    this.http.post<RegisterResponse>(`${BASE_URL}/user/register/`, 
+
+    this.http.post<RegisterResponse>(`${BASE_URL}/user/register/`,
       { ...formData, password: formData.password1, baseUrl },
     ).subscribe(
       (data) => {

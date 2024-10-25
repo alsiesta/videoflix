@@ -12,7 +12,7 @@ import { environment } from '../../../environments/environment';
 })
 export class UserconfirmnewpasswordComponent implements OnInit {
   private baseUrl: string = environment.baseUrl;
-  
+
   resetPasswordForm: FormGroup;
   uidb64: string;
   token: string;
@@ -24,7 +24,7 @@ export class UserconfirmnewpasswordComponent implements OnInit {
   error: string | null = null;
   resetEmail: string = '';
 
-  constructor(
+  constructor (
     private fb: FormBuilder,
     private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient
   ) {
@@ -40,7 +40,7 @@ export class UserconfirmnewpasswordComponent implements OnInit {
 
   ngOnInit () { }
 
-  onSubmit() {
+  onSubmit () {
     if (this.resetPasswordForm.valid) {
       const newPassword = this.resetPasswordForm.get('newPassword')?.value;
       const confirmPassword = this.resetPasswordForm.get('confirmPassword')?.value;
@@ -70,12 +70,12 @@ export class UserconfirmnewpasswordComponent implements OnInit {
   }
 
   navigateToHome (event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
     this.router.navigate(['/home']);
   }
 
   logout (event: Event) {
-    event.preventDefault(); 
+    event.preventDefault();
     localStorage.removeItem('token');
     this.authService.setUsername(null);
     this.router.navigate(['/login']);

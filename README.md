@@ -20,7 +20,7 @@ Run `ng serve` for a development server. Navigate to `http://localhost:4200/`. T
 
 ## Environment Variables
 
-The project uses environment variables defined in the `.env` file. For example, the `BASE_URL` is set to `http://127.0.0.1:8000`.
+The project uses environment variables defined in the `.env` file. For example, the `BASE_URL` is set to `http://127.0.0.1:8000` for development.
 
 
 ## Key Directories and Files

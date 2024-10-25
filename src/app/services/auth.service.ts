@@ -23,7 +23,7 @@ export class AuthService {
   username$ = this.usernameSubject.asObservable();
   error$ = this.errorSubject.asObservable();
 
-  loginWithUsernameAndPassword(username: string, password: string) {
+  loginWithUsernameAndPassword (username: string, password: string) {
     const url = environment.baseUrl + "/login/";
     const body = {
       "username": username,

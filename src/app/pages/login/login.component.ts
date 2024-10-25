@@ -16,7 +16,7 @@ const BASE_URL = environment.baseUrl; // Use the BASE_URL from environment
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  
+
   username: string | null = null;
   password: string | null = null;
   isLoading: boolean = false;
@@ -117,7 +117,7 @@ export class LoginComponent implements OnInit {
           this.error = null;
           this.status = 'success';
           console.log('Password reset link sent successfully', response);
-          this.clearAlert ()
+          this.clearAlert()
         } else if (response.detail) {
           this.message = response.detail;
           this.error = null;

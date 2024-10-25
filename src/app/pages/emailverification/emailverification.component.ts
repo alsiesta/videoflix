@@ -3,20 +3,20 @@ import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 
-const BASE_URL = environment.baseUrl; 
+const BASE_URL = environment.baseUrl;
 
 @Component({
   selector: 'app-emailverification',
   templateUrl: './emailverification.component.html',
   styleUrls: ['./emailverification.component.scss']
 })
-export class EmailverificationComponent implements OnInit  {
+export class EmailverificationComponent implements OnInit {
 
   message: string = 'Verifying...';
 
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor (private route: ActivatedRoute, private http: HttpClient) { }
 
-  ngOnInit(): void {
+  ngOnInit (): void {
     const uid = this.route.snapshot.paramMap.get('uid');
     const token = this.route.snapshot.paramMap.get('token');
 
@@ -29,7 +29,7 @@ export class EmailverificationComponent implements OnInit  {
     }
   }
 
-  verifyEmail(uid: string, token: string): void {
+  verifyEmail (uid: string, token: string): void {
     this.http.get(`${BASE_URL}/user/verify-email/${uid}/${token}/`).subscribe(
       (response: any) => {
         this.message = response.detail;
