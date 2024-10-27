@@ -25,6 +25,7 @@ const routes: Routes = [
   { path: 'home', component: HomeComponent, canActivate: [AuthGuard] },
   { path: 'video/:id', component: VideodetailComponent, canActivate: [AuthGuard] },
   { path: 'verify-email/:uid/:token', component: EmailverificationComponent },
+  { path: '**', redirectTo: '/login' }
 ];
 
 @NgModule({
