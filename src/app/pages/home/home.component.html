@@ -6,10 +6,10 @@
 
     <div id="herostage" class="flex flex-col justify-start h-[50vh] w-full">
         <!-- Content herostage -->
-        <div id="hero" class="relative z-1 md:w-6/7 lg:w-5/6 ml-10 mt-20" *ngIf="videos.length > 0">
+        <div id="hero" class="relative z-1 md:w-6/7 lg:w-5/6 ml-10 mt-20 mr-10" *ngIf="videos.length > 0">
             <div>
                 <h1 class="font-bold text-3xl">{{hero_video.title}}</h1>
-                <h3 class="text-1xl text-white">{{hero_video.description}}</h3>
+                <h3 class="text-1xl text-white">{{hero_video.description | truncate:200}}</h3>
                 <div class="mb-16 mt-3">
                     <button class="px-4 py-2 bg-blue-500 text-white rounded z-30"
                         [routerLink]="['/video/' + hero_video.id]">Watch Video</button>

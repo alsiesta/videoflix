@@ -24,6 +24,7 @@ import { DatenschutzComponent } from './pages/datenschutz/datenschutz.component'
 import { ImpressumComponent } from './pages/impressum/impressum.component';
 import { BackgroundVideoComponent } from './utils/background-video/background-video.component';
 import { EmailverificationComponent } from './pages/emailverification/emailverification.component';
+import { TruncatePipe } from './utils/pipes/truncate.pipe';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { EmailverificationComponent } from './pages/emailverification/emailverif
     DatenschutzComponent,
     ImpressumComponent,
     BackgroundVideoComponent,
-    EmailverificationComponent
+    EmailverificationComponent,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
