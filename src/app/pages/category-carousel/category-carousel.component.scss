@@ -3,7 +3,7 @@
     height: 100vh;
     width: 100%;
     color: white;
-  }
+}
 
 /* Hide scrollbar for Chrome, Safari and Opera */
 .scrollbar-hide::-webkit-scrollbar {
@@ -20,4 +20,29 @@
     color: #ffffff; /* Light lilac color */
 }
 
+/* category-carousel.component.scss */
+.black-circle-button {
+  background-color: black;
+  border-radius: 50%;
+  width: 40px; /* Adjust the width as needed */
+  height: 40px; /* Adjust the height as needed */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0; /* Remove padding to make the circle uniform */
+  transition: transform 0.2s ease-in-out; /* Smooth transition for scaling */
 
+  &:hover {
+    transform: scale(1.2); /* Scale up the button on hover */
+  }
+
+  svg {
+    width: 20px; /* Adjust the size of the SVG as needed */
+    height: 20px; /* Adjust the size of the SVG as needed */
+    transition: transform 0.2s ease-in-out; /* Smooth transition for scaling */
+  }
+
+  &:hover svg {
+    transform: scale(1.2); /* Scale up the SVG on hover */
+  }
+}
