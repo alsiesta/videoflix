@@ -24,6 +24,17 @@ export class UserconfirmnewpasswordComponent implements OnInit {
   error: string | null = null;
   resetEmail: string = '';
 
+
+  /**
+ * Initializes the component and sets up the form group with validators.
+ * Extracts the UID and token parameters from the URL.
+ * 
+ * @param fb - FormBuilder instance to create form groups and form controls.
+ * @param authService - AuthService instance to handle authentication-related tasks.
+ * @param route - ActivatedRoute instance to access route parameters.
+ * @param router - Router instance to navigate between routes.
+ * @param http - HttpClient instance to make HTTP requests.
+ */
   constructor (
     private fb: FormBuilder,
     private authService: AuthService, private route: ActivatedRoute, private router: Router, private http: HttpClient
@@ -38,8 +49,19 @@ export class UserconfirmnewpasswordComponent implements OnInit {
     this.token = this.route.snapshot.paramMap.get('token')!;
   }
 
+
+  /**
+ * Lifecycle hook that is called after data-bound properties of a directive are initialized.
+ */
   ngOnInit () { }
 
+
+  /**
+ * Handles the form submission for confirming the new password.
+ * Checks if the form is valid and if the new password and confirm password fields match.
+ * Makes an HTTP POST request to confirm the new password.
+ * Displays success or error messages based on the response.
+ */
   onSubmit () {
     if (this.resetPasswordForm.valid) {
       const newPassword = this.resetPasswordForm.get('newPassword')?.value;
@@ -69,11 +91,23 @@ export class UserconfirmnewpasswordComponent implements OnInit {
     }
   }
 
+
+  /**
+ * Navigates to the home page.
+ * 
+ * @param event - The event object.
+ */
   navigateToHome (event: Event) {
     event.preventDefault();
     this.router.navigate(['/home']);
   }
 
+
+  /**
+ * Logs out the user by removing the token from local storage and navigating to the login page.
+ * 
+ * @param event - The event object.
+ */
   logout (event: Event) {
     event.preventDefault();
     localStorage.removeItem('token');
@@ -81,6 +115,10 @@ export class UserconfirmnewpasswordComponent implements OnInit {
     this.router.navigate(['/login']);
   }
 
+
+  /**
+ * Clears the error and success messages.
+ */
   clearAlert (): void {
     this.error = null;
     this.successMessage = null;

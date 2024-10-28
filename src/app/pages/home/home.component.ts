@@ -6,6 +6,10 @@ import { newVideo, Video } from 'src/app/models/models';
 import { Subscription, timer } from 'rxjs';
 
 
+/**
+ * HomeComponent is responsible for displaying the home page of the application.
+ * It fetches videos from the backend, groups them by category, and handles video rotation.
+ */
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -34,6 +38,10 @@ export class HomeComponent implements OnInit {
 
   constructor (private http: HttpClient) { }
 
+  /**
+   * Lifecycle hook that is called after data-bound properties of a directive are initialized.
+   * Fetches videos, groups them by category, and initializes video rotation.
+   */
   async ngOnInit () {
     console.log('Base URL:', this.BASE_URL);
     await this.loadVideos();
@@ -41,6 +49,10 @@ export class HomeComponent implements OnInit {
     this.initializeVideoRotation();
   }
 
+  /**
+   * Lifecycle hook that is called after a component's view has been fully initialized.
+   * Ensures the background video is muted when metadata is loaded.
+   */
   ngAfterViewInit () {
     // Ensure the video is muted when metadata is loaded
     if (this.backgroundVideo && this.backgroundVideo.nativeElement) {
@@ -50,6 +62,10 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+    /**
+   * Groups videos by their categories.
+   */
   groupVideosByCategory (): void {
     this.videos.forEach(video => {
       video.categories.forEach(category => {
@@ -62,6 +78,9 @@ export class HomeComponent implements OnInit {
   }
 
 
+   /**
+   * Loads videos from the backend and processes their paths.
+   */
   private async loadVideos () {
     try {
       const videos = await this.getVideos();
@@ -82,7 +101,10 @@ export class HomeComponent implements OnInit {
 
 
 
-
+  /**
+   * Fetches videos from the backend.
+   * @returns A promise that resolves to an array of videos.
+   */
   private async getVideos (): Promise<Video[]> {
     const url = `${environment.baseUrl}/videos/`;
     try {
@@ -99,6 +121,11 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+  /**
+   * Handles errors that occur during video loading.
+   * @param error The error that occurred.
+   */
   private handleError (error: any) {
     if (error instanceof HttpErrorResponse) {
       this.error = error.error.error || error.error.message || error.error.detail || 'Fehler beim Laden der Videos';
@@ -111,14 +138,30 @@ export class HomeComponent implements OnInit {
     }
   }
 
+
+    /**
+   * Scrolls the video list to the left.
+   * @param id The ID of the video list element.
+   */
   scrollLeft (id: string) {
     this.scroll('left', id);
   }
 
+
+    /**
+   * Scrolls the video list to the right.
+   * @param id The ID of the video list element.
+   */
   scrollRight (id: string) {
     this.scroll('right', id);
   }
 
+
+    /**
+   * Scrolls the video list in the specified direction.
+   * @param direction The direction to scroll ('left' or 'right').
+   * @param id The ID of the video list element.
+   */
   private scroll (direction: 'left' | 'right', id: string) {
     const container = document.getElementById(id);
     const scrollAmount = direction === 'left' ? -200 : 200;
@@ -126,6 +169,10 @@ export class HomeComponent implements OnInit {
   }
 
 
+    /**
+   * Returns the link to the current video.
+   * @returns The video link.
+   */
   getVideoLink (): string {
     return `/video/${this.videos[0].id}`;
   }
@@ -161,6 +208,10 @@ export class HomeComponent implements OnInit {
   }
 
 
+  /**
+   * Lifecycle hook that is called when a directive, pipe, or service is destroyed.
+   * Cleans up the timer subscription.
+   */
   ngOnDestroy (): void {
     // Clean up the timer subscription to prevent memory leaks
     if (this.timerSubscription) {
