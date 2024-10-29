@@ -5,6 +5,7 @@ Videoflix is a video streaming application built with Angular. This project allo
 
 This app uses a backend which provides a Django Backend App serving user registration, password reset, video management, and more. Download it here: https://github.com/alsiesta/videoflix-bknd
 
+Check out the [Documentation](./documentation/index.html)
 
 ## Getting Started
 

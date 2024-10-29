@@ -1,0 +1,438 @@
+<!doctype html>
+<html class="no-js" lang="">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <title>videoflix documentation</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="icon" type="image/x-icon" href="../images/favicon.ico">
+	   <link rel="stylesheet" href="../styles/style.css">
+        <link rel="stylesheet" href="../styles/dark.css">
+    </head>
+    <body>
+          <script>
+               // Blocking script to avoid flickering dark mode
+               // Dark mode toggle button
+               var useDark = window.matchMedia('(prefers-color-scheme: dark)');
+               var darkModeState = useDark.matches;
+               var $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               var $darkModeToggles = document.querySelectorAll('.dark-mode-switch');
+               var darkModeStateLocal = localStorage.getItem('compodoc_darkmode-state');
+
+               function checkToggle(check) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].checked = check;
+                    }
+               }
+
+               function toggleDarkMode(state) {
+                    if (window.localStorage) {
+                         localStorage.setItem('compodoc_darkmode-state', state);
+                    }
+
+                    checkToggle(state);
+
+                    const hasClass = document.body.classList.contains('dark');
+
+                    if (state) {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.add('dark');
+                         }
+                         if (!hasClass) {
+                              document.body.classList.add('dark');
+                         }
+                    } else {
+                         for (var i = 0; i < $darkModeToggles.length; i++) {
+                              $darkModeToggles[i].classList.remove('dark');
+                         }
+                         if (hasClass) {
+                              document.body.classList.remove('dark');
+                         }
+                    }
+               }
+
+               useDark.addEventListener('change', function (evt) {
+                    toggleDarkMode(evt.matches);
+               });
+               if (darkModeStateLocal) {
+                    darkModeState = darkModeStateLocal === 'true';
+               }
+               toggleDarkMode(darkModeState);
+          </script>
+
+        <div class="navbar navbar-default navbar-fixed-top d-md-none p-0">
+               <div class="d-flex">
+                    <a href="../" class="navbar-brand">videoflix documentation</a>
+                    <button type="button" class="btn btn-default btn-menu ion-ios-menu" id="btn-menu"></button>
+               </div>
+        </div>
+
+        <div class="xs-menu menu" id="mobile-menu">
+                <div id="book-search-input" role="search"><input type="text" placeholder="Type to search"></div>            <compodoc-menu></compodoc-menu>
+        </div>
+
+        <div class="container-fluid main">
+           <div class="row main">
+               <div class="d-none d-md-block menu">
+                   <compodoc-menu mode="normal"></compodoc-menu>
+               </div>
+               <!-- START CONTENT -->
+               <div class="content component">
+                   <div class="content-data">
+
+
+
+
+<ol class="breadcrumb">
+  <li class="breadcrumb-item">Components</li>
+  <li class="breadcrumb-item"
+  >
+  DatenschutzComponent</li>
+</ol>
+
+<ul class="nav nav-tabs" role="tablist">
+        <li class="nav-item">
+            <a href="#info" class="nav-link active"
+                role="tab" id="info-tab" data-bs-toggle="tab" data-link="info">Info</a>
+        </li>
+        <li class="nav-item">
+            <a href="#source" class="nav-link"
+                role="tab" id="source-tab" data-bs-toggle="tab" data-link="source">Source</a>
+        </li>
+        <li class="nav-item">
+            <a href="#templateData" class="nav-link"
+                role="tab" id="templateData-tab" data-bs-toggle="tab" data-link="template">Template</a>
+        </li>
+        <li class="nav-item">
+            <a href="#styleData" class="nav-link"
+                role="tab" id="styleData-tab" data-bs-toggle="tab" data-link="style">Styles</a>
+        </li>
+        <li class="nav-item">
+            <a href="#tree" class="nav-link"
+                role="tab" id="tree-tab" data-bs-toggle="tab" data-link="dom-tree">DOM Tree</a>
+        </li>
+</ul>
+
+<div class="tab-content">
+    <div class="tab-pane fade active in" id="info"><p class="comment">
+    <h3>File</h3>
+</p>
+<p class="comment">
+    <code>src/app/pages/datenschutz/datenschutz.component.ts</code>
+</p>
+
+
+
+
+
+
+<section data-compodoc="block-metadata">
+    <h3>Metadata</h3>
+    <table class="table table-sm table-hover metadata">
+        <tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+            <tr>
+                <td class="col-md-3">selector</td>
+                <td class="col-md-9"><code>app-datenschutz</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">styleUrls</td>
+                <td class="col-md-9"><code>./datenschutz.component.scss</code></td>
+            </tr>
+
+
+
+            <tr>
+                <td class="col-md-3">templateUrl</td>
+                <td class="col-md-9"><code>./datenschutz.component.html</code></td>
+            </tr>
+
+
+
+
+
+
+
+
+        </tbody>
+    </table>
+</section>
+
+
+
+
+
+
+
+
+
+</div>
+
+
+    <div class="tab-pane fade  tab-source-code" id="source">
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Component } from &#x27;@angular/core&#x27;;
+
+@Component({
+  selector: &#x27;app-datenschutz&#x27;,
+  templateUrl: &#x27;./datenschutz.component.html&#x27;,
+  styleUrls: [&#x27;./datenschutz.component.scss&#x27;]
+})
+export class DatenschutzComponent {
+
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="templateData">
+        <pre class="line-numbers"><code class="language-html">&lt;div class&#x3D;&quot;main_container&quot;&gt;
+    &lt;h1&gt;Datenschutzerklärung&lt;/h1&gt;
+&lt;p&gt;Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschutzgrundverordnung (DSGVO), ist:&lt;/p&gt;
+&lt;p&gt;Alexander Schönfeld&lt;/p&gt;
+&lt;h2&gt;Ihre Betroffenenrechte&lt;/h2&gt;
+&lt;p&gt;Unter den angegebenen Kontaktdaten unseres Datenschutzbeauftragten können Sie jederzeit folgende Rechte ausüben:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Auskunft über Ihre bei uns gespeicherten Daten und deren Verarbeitung (Art. 15 DSGVO),&lt;/li&gt;
+&lt;li&gt;Berichtigung unrichtiger personenbezogener Daten (Art. 16 DSGVO),&lt;/li&gt;
+&lt;li&gt;Löschung Ihrer bei uns gespeicherten Daten (Art. 17 DSGVO),&lt;/li&gt;
+&lt;li&gt;Einschränkung der Datenverarbeitung, sofern wir Ihre Daten aufgrund gesetzlicher Pflichten noch nicht löschen dürfen (Art. 18 DSGVO),&lt;/li&gt;
+&lt;li&gt;Widerspruch gegen die Verarbeitung Ihrer Daten bei uns (Art. 21 DSGVO) und&lt;/li&gt;
+&lt;li&gt;Datenübertragbarkeit, sofern Sie in die Datenverarbeitung eingewilligt haben oder einen Vertrag mit uns abgeschlossen haben (Art. 20 DSGVO).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Sofern Sie uns eine Einwilligung erteilt haben, können Sie diese jederzeit mit Wirkung für die Zukunft widerrufen.&lt;/p&gt;
+&lt;p&gt;Sie können sich jederzeit mit einer Beschwerde an eine Aufsichtsbehörde wenden, z. B. an die zuständige Aufsichtsbehörde des Bundeslands Ihres Wohnsitzes oder an die für uns als verantwortliche Stelle zuständige Behörde.&lt;/p&gt;
+&lt;p&gt;Eine Liste der Aufsichtsbehörden (für den nichtöffentlichen Bereich) mit Anschrift finden Sie unter: &lt;a href&#x3D;&quot;https://www.bfdi.bund.de/DE/Service/Anschriften/Laender/Laender-node.html&quot; target&#x3D;&quot;_blank&quot; rel&#x3D;&quot;noopener nofollow&quot;&gt;Liste der Aufsichtsbehörden&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;h2&gt;Erfassung allgemeiner Informationen beim Besuch unserer Website&lt;/h2&gt;
+&lt;h3&gt;Art und Zweck der Verarbeitung:&lt;/h3&gt;
+&lt;p&gt;Wenn Sie auf unsere Website zugreifen, d.h., wenn Sie sich nicht registrieren oder anderweitig Informationen übermitteln, werden automatisch Informationen allgemeiner Natur erfasst. Diese Informationen (Server-Logfiles) beinhalten etwa die Art des Webbrowsers, das verwendete Betriebssystem, den Domainnamen Ihres Internet-Service-Providers, Ihre IP-Adresse und ähnliches. &lt;/p&gt;
+&lt;p&gt;Sie werden insbesondere zu folgenden Zwecken verarbeitet:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sicherstellung eines problemlosen Verbindungsaufbaus der Website,&lt;/li&gt;
+&lt;li&gt;Sicherstellung einer reibungslosen Nutzung unserer Website,&lt;/li&gt;
+&lt;li&gt;Auswertung der Systemsicherheit und -stabilität sowie&lt;/li&gt;
+&lt;li&gt;zur Optimierung unserer Website.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Wir verwenden Ihre Daten nicht, um Rückschlüsse auf Ihre Person zu ziehen. Informationen dieser Art werden von uns ggfs. anonymisiert statistisch ausgewertet, um unseren Internetauftritt und die dahinterstehende Technik zu optimieren. &lt;/p&gt;
+&lt;h3&gt;Rechtsgrundlage und berechtigtes Interesse:&lt;/h3&gt;
+&lt;p&gt;Die Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. f DSGVO auf Basis unseres berechtigten Interesses an der Verbesserung der Stabilität und Funktionalität unserer Website.&lt;/p&gt;
+&lt;h3&gt;Empfänger:&lt;/h3&gt;
+&lt;p&gt;Empfänger der Daten sind ggf. technische Dienstleister, die für den Betrieb und die Wartung unserer Webseite als Auftragsverarbeiter tätig werden.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;h3&gt;Speicherdauer:&lt;/h3&gt;
+&lt;p&gt;Die Daten werden gelöscht, sobald diese für den Zweck der Erhebung nicht mehr erforderlich sind. Dies ist für die Daten, die der Bereitstellung der Website dienen, grundsätzlich der Fall, wenn die jeweilige Sitzung beendet ist. &lt;/p&gt;
+&lt;p&gt; Im Falle der Speicherung der Daten in Logfiles ist dies nach spätestens 14 Tagen der Fall. Eine darüberhinausgehende Speicherung ist möglich. In diesem Fall werden die IP-Adressen der Nutzer anonymisiert, sodass eine  Zuordnung  des aufrufenden Clients nicht mehr möglich ist.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;h3&gt;Bereitstellung vorgeschrieben oder erforderlich:&lt;/h3&gt;
+&lt;p&gt;Die Bereitstellung der vorgenannten personenbezogenen Daten ist weder gesetzlich noch vertraglich vorgeschrieben. Ohne die IP-Adresse ist jedoch der Dienst und die Funktionsfähigkeit unserer Website nicht gewährleistet. Zudem können einzelne Dienste und Services nicht verfügbar oder eingeschränkt sein. Aus diesem Grund ist ein Widerspruch ausgeschlossen. &lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;h2&gt;Kontaktformular&lt;/h2&gt;
+&lt;h3&gt;Art und Zweck der Verarbeitung:&lt;/h3&gt;
+&lt;p&gt;Die von Ihnen eingegebenen Daten werden zum Zweck der individuellen Kommunikation mit Ihnen gespeichert. Hierfür ist die Angabe einer validen E-Mail-Adresse sowie Ihres Namens erforderlich. Diese dient der Zuordnung der Anfrage und der anschließenden Beantwortung derselben. Die Angabe weiterer Daten ist optional.&lt;/p&gt;
+&lt;h3&gt;Rechtsgrundlage:&lt;/h3&gt;
+&lt;p&gt;Die Verarbeitung der in das Kontaktformular eingegebenen Daten erfolgt auf der Grundlage eines berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO).&lt;/p&gt;
+&lt;p&gt;Durch Bereitstellung des Kontaktformulars möchten wir Ihnen eine unkomplizierte Kontaktaufnahme ermöglichen. Ihre gemachten Angaben werden zum Zwecke der Bearbeitung der Anfrage sowie für mögliche Anschlussfragen gespeichert.&lt;/p&gt;
+&lt;p&gt;Sofern Sie mit uns Kontakt aufnehmen, um ein Angebot zu erfragen, erfolgt die Verarbeitung der in das Kontaktformular eingegebenen Daten zur Durchführung vorvertraglicher Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO).&lt;/p&gt;
+&lt;h3&gt;Empfänger:&lt;/h3&gt;
+&lt;p&gt;Empfänger der Daten sind ggf. Auftragsverarbeiter.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;h3&gt;Speicherdauer:&lt;/h3&gt;
+&lt;p&gt;Daten werden spätestens 6 Monate nach Bearbeitung der Anfrage gelöscht.&lt;/p&gt;
+&lt;p&gt;Sofern es zu einem Vertragsverhältnis kommt, unterliegen wir den gesetzlichen Aufbewahrungsfristen nach HGB und löschen Ihre Daten nach Ablauf dieser Fristen. &lt;/p&gt;
+&lt;h3&gt;Bereitstellung vorgeschrieben oder erforderlich:&lt;/h3&gt;
+&lt;p&gt;Die Bereitstellung Ihrer personenbezogenen Daten erfolgt freiwillig. Wir können Ihre Anfrage jedoch nur bearbeiten, sofern Sie uns Ihren Namen, Ihre E-Mail-Adresse und den Grund der Anfrage mitteilen.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;h2&gt;Verwendung von Scriptbibliotheken (Google Webfonts)&lt;/h2&gt;
+&lt;p&gt;Um unsere Inhalte browserübergreifend korrekt und grafisch ansprechend darzustellen, verwenden wir auf dieser Website „Google Web Fonts“ der Google LLC (1600 Amphitheatre Parkway, Mountain View, CA 94043, USA; nachfolgend „Google“) zur Darstellung von Schriften.&lt;/p&gt;
+&lt;p&gt;Weitere Informationen zu Google Web Fonts finden Sie unter &lt;a href&#x3D;&quot;https://developers.google.com/fonts/faq&quot; rel&#x3D;&quot;noopener nofollow&quot; target&#x3D;&quot;_blank&quot;&gt;Developer Google Fonts&lt;/a&gt; und in der Datenschutzerklärung von Google: &lt;a href&#x3D;&quot;https://www.google.com/policies/privacy/&quot; rel&#x3D;&quot;noopener nofollow&quot; target&#x3D;&quot;_blank&quot;&gt;Google Privacy&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;&lt;/p&gt;&lt;hr&gt;
+&lt;h2&gt;Information über Ihr Widerspruchsrecht nach Art. 21 DSGVO&lt;/h2&gt;
+&lt;h3&gt;Einzelfallbezogenes Widerspruchsrecht&lt;/h3&gt;
+&lt;p&gt;Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Sie betreffender personenbezogener Daten, die aufgrund Art. 6 Abs. 1 lit. f DSGVO (Datenverarbeitung auf der Grundlage einer Interessenabwägung) erfolgt, Widerspruch einzulegen; dies gilt auch für ein auf diese Bestimmung gestütztes Profiling im Sinne von Art. 4 Nr. 4 DSGVO.&lt;/p&gt;
+&lt;p&gt;Legen Sie Widerspruch ein, werden wir Ihre personenbezogenen Daten nicht mehr verarbeiten, es sei denn, wir können zwingende schutzwürdige Gründe für die Verarbeitung nachweisen, die Ihre Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.&lt;/p&gt;
+&lt;h3&gt;Empfänger eines Widerspruchs&lt;/h3&gt;
+&lt;p&gt;Alexander Schönfeld&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;Änderung unserer Datenschutzbestimmungen&lt;/h2&gt;
+&lt;p&gt;Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services. Für Ihren erneuten Besuch gilt dann die neue Datenschutzerklärung.&lt;/p&gt;
+&lt;h2&gt;Fragen an den Datenschutzbeauftragten&lt;/h2&gt;
+&lt;p&gt;Wenn Sie Fragen zum Datenschutz haben, schreiben Sie uns bitte eine E-Mail oder wenden Sie sich direkt an die für den Datenschutz verantwortliche Person in unserer Organisation:&lt;/p&gt;
+&lt;p&gt;Alexander Schönfeld, as@daslizenzatelier.de&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Die Datenschutzerklärung wurde mithilfe der activeMind AG erstellt, den Experten für &lt;a href&#x3D;&quot;https://www.activemind.de/datenschutz/datenschutzbeauftragter/&quot; target&#x3D;&quot;_blank&quot; rel&#x3D;&quot;noopener&quot;&gt;externe Datenschutzbeauftragte&lt;/a&gt; (Version #2020-09-30).&lt;/em&gt;&lt;/p&gt;
+
+
+&lt;/div&gt;
+
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="styleData">
+                <p class="comment">
+                    <code>./datenschutz.component.scss</code>
+                </p>
+                <pre class="line-numbers"><code class="language-scss">:host {
+    z-index: 19;
+    height: 100vh;
+    width: 100%;
+    padding: 1rem; /* Optional: Add padding */
+    color: white;
+    background-color: rgb(0, 19, 41);
+  }
+  
+
+p {
+    font-family: &#x27;Haboro-Regular&#x27;, &#x27;Roboto&#x27;, &#x27;Helvetica Neue&#x27;, sans-serif;
+    font-size: 16px;
+    padding-bottom: 30px;
+}
+
+a{
+  text-decoration:underline;
+  color: rgb(106, 111, 255);
+}
+
+h1{
+    font-size: 24px;
+    font-weight: bold;
+}
+
+h2{
+    font-size: 20px;
+    font-weight: bold;
+}
+
+h3{
+    font-size: 18px;
+    font-weight: bold;
+}
+</code></pre>
+    </div>
+
+    <div class="tab-pane fade " id="tree">
+        <div id="tree-container"></div>
+        <div class="tree-legend">
+            <div class="title">
+                <b>Legend</b>
+            </div>
+            <div>
+                <div class="color htmlelement"></div><span>Html element</span>
+            </div>
+            <div>
+                <div class="color component"></div><span>Component</span>
+            </div>
+            <div>
+                <div class="color directive"></div><span>Html element with directive</span>
+            </div>
+        </div>
+    </div>
+
+    
+</div>
+
+<script src="../js/libs/vis.min.js"></script>
+<script src="../js/libs/htmlparser.js"></script>
+<script src="../js/libs/deep-iterator.js"></script>
+<script>
+        var COMPONENT_TEMPLATE = '<div><div class="main_container">    <h1>Datenschutzerklärung</h1><p>Verantwortlicher im Sinne der Datenschutzgesetze, insbesondere der EU-Datenschutzgrundverordnung (DSGVO), ist:</p><p>Alexander Schönfeld</p><h2>Ihre Betroffenenrechte</h2><p>Unter den angegebenen Kontaktdaten unseres Datenschutzbeauftragten können Sie jederzeit folgende Rechte ausüben:</p><ul><li>Auskunft über Ihre bei uns gespeicherten Daten und deren Verarbeitung (Art. 15 DSGVO),</li><li>Berichtigung unrichtiger personenbezogener Daten (Art. 16 DSGVO),</li><li>Löschung Ihrer bei uns gespeicherten Daten (Art. 17 DSGVO),</li><li>Einschränkung der Datenverarbeitung, sofern wir Ihre Daten aufgrund gesetzlicher Pflichten noch nicht löschen dürfen (Art. 18 DSGVO),</li><li>Widerspruch gegen die Verarbeitung Ihrer Daten bei uns (Art. 21 DSGVO) und</li><li>Datenübertragbarkeit, sofern Sie in die Datenverarbeitung eingewilligt haben oder einen Vertrag mit uns abgeschlossen haben (Art. 20 DSGVO).</li></ul><p>Sofern Sie uns eine Einwilligung erteilt haben, können Sie diese jederzeit mit Wirkung für die Zukunft widerrufen.</p><p>Sie können sich jederzeit mit einer Beschwerde an eine Aufsichtsbehörde wenden, z. B. an die zuständige Aufsichtsbehörde des Bundeslands Ihres Wohnsitzes oder an die für uns als verantwortliche Stelle zuständige Behörde.</p><p>Eine Liste der Aufsichtsbehörden (für den nichtöffentlichen Bereich) mit Anschrift finden Sie unter: <a href="https://www.bfdi.bund.de/DE/Service/Anschriften/Laender/Laender-node.html" target="_blank" rel="noopener nofollow">Liste der Aufsichtsbehörden</a>.</p><p></p><h2>Erfassung allgemeiner Informationen beim Besuch unserer Website</h2><h3>Art und Zweck der Verarbeitung:</h3><p>Wenn Sie auf unsere Website zugreifen, d.h., wenn Sie sich nicht registrieren oder anderweitig Informationen übermitteln, werden automatisch Informationen allgemeiner Natur erfasst. Diese Informationen (Server-Logfiles) beinhalten etwa die Art des Webbrowsers, das verwendete Betriebssystem, den Domainnamen Ihres Internet-Service-Providers, Ihre IP-Adresse und ähnliches. </p><p>Sie werden insbesondere zu folgenden Zwecken verarbeitet:</p><ul><li>Sicherstellung eines problemlosen Verbindungsaufbaus der Website,</li><li>Sicherstellung einer reibungslosen Nutzung unserer Website,</li><li>Auswertung der Systemsicherheit und -stabilität sowie</li><li>zur Optimierung unserer Website.</li></ul><p>Wir verwenden Ihre Daten nicht, um Rückschlüsse auf Ihre Person zu ziehen. Informationen dieser Art werden von uns ggfs. anonymisiert statistisch ausgewertet, um unseren Internetauftritt und die dahinterstehende Technik zu optimieren. </p><h3>Rechtsgrundlage und berechtigtes Interesse:</h3><p>Die Verarbeitung erfolgt gemäß Art. 6 Abs. 1 lit. f DSGVO auf Basis unseres berechtigten Interesses an der Verbesserung der Stabilität und Funktionalität unserer Website.</p><h3>Empfänger:</h3><p>Empfänger der Daten sind ggf. technische Dienstleister, die für den Betrieb und die Wartung unserer Webseite als Auftragsverarbeiter tätig werden.</p><p></p><h3>Speicherdauer:</h3><p>Die Daten werden gelöscht, sobald diese für den Zweck der Erhebung nicht mehr erforderlich sind. Dies ist für die Daten, die der Bereitstellung der Website dienen, grundsätzlich der Fall, wenn die jeweilige Sitzung beendet ist. </p><p> Im Falle der Speicherung der Daten in Logfiles ist dies nach spätestens 14 Tagen der Fall. Eine darüberhinausgehende Speicherung ist möglich. In diesem Fall werden die IP-Adressen der Nutzer anonymisiert, sodass eine  Zuordnung  des aufrufenden Clients nicht mehr möglich ist.</p><p></p><h3>Bereitstellung vorgeschrieben oder erforderlich:</h3><p>Die Bereitstellung der vorgenannten personenbezogenen Daten ist weder gesetzlich noch vertraglich vorgeschrieben. Ohne die IP-Adresse ist jedoch der Dienst und die Funktionsfähigkeit unserer Website nicht gewährleistet. Zudem können einzelne Dienste und Services nicht verfügbar oder eingeschränkt sein. Aus diesem Grund ist ein Widerspruch ausgeschlossen. </p><p></p><h2>Kontaktformular</h2><h3>Art und Zweck der Verarbeitung:</h3><p>Die von Ihnen eingegebenen Daten werden zum Zweck der individuellen Kommunikation mit Ihnen gespeichert. Hierfür ist die Angabe einer validen E-Mail-Adresse sowie Ihres Namens erforderlich. Diese dient der Zuordnung der Anfrage und der anschließenden Beantwortung derselben. Die Angabe weiterer Daten ist optional.</p><h3>Rechtsgrundlage:</h3><p>Die Verarbeitung der in das Kontaktformular eingegebenen Daten erfolgt auf der Grundlage eines berechtigten Interesses (Art. 6 Abs. 1 lit. f DSGVO).</p><p>Durch Bereitstellung des Kontaktformulars möchten wir Ihnen eine unkomplizierte Kontaktaufnahme ermöglichen. Ihre gemachten Angaben werden zum Zwecke der Bearbeitung der Anfrage sowie für mögliche Anschlussfragen gespeichert.</p><p>Sofern Sie mit uns Kontakt aufnehmen, um ein Angebot zu erfragen, erfolgt die Verarbeitung der in das Kontaktformular eingegebenen Daten zur Durchführung vorvertraglicher Maßnahmen (Art. 6 Abs. 1 lit. b DSGVO).</p><h3>Empfänger:</h3><p>Empfänger der Daten sind ggf. Auftragsverarbeiter.</p><p></p><h3>Speicherdauer:</h3><p>Daten werden spätestens 6 Monate nach Bearbeitung der Anfrage gelöscht.</p><p>Sofern es zu einem Vertragsverhältnis kommt, unterliegen wir den gesetzlichen Aufbewahrungsfristen nach HGB und löschen Ihre Daten nach Ablauf dieser Fristen. </p><h3>Bereitstellung vorgeschrieben oder erforderlich:</h3><p>Die Bereitstellung Ihrer personenbezogenen Daten erfolgt freiwillig. Wir können Ihre Anfrage jedoch nur bearbeiten, sofern Sie uns Ihren Namen, Ihre E-Mail-Adresse und den Grund der Anfrage mitteilen.</p><p></p><h2>Verwendung von Scriptbibliotheken (Google Webfonts)</h2><p>Um unsere Inhalte browserübergreifend korrekt und grafisch ansprechend darzustellen, verwenden wir auf dieser Website „Google Web Fonts“ der Google LLC (1600 Amphitheatre Parkway, Mountain View, CA 94043, USA; nachfolgend „Google“) zur Darstellung von Schriften.</p><p>Weitere Informationen zu Google Web Fonts finden Sie unter <a href="https://developers.google.com/fonts/faq" rel="noopener nofollow" target="_blank">Developer Google Fonts</a> und in der Datenschutzerklärung von Google: <a href="https://www.google.com/policies/privacy/" rel="noopener nofollow" target="_blank">Google Privacy</a>.</p><p></p><hr><h2>Information über Ihr Widerspruchsrecht nach Art. 21 DSGVO</h2><h3>Einzelfallbezogenes Widerspruchsrecht</h3><p>Sie haben das Recht, aus Gründen, die sich aus Ihrer besonderen Situation ergeben, jederzeit gegen die Verarbeitung Sie betreffender personenbezogener Daten, die aufgrund Art. 6 Abs. 1 lit. f DSGVO (Datenverarbeitung auf der Grundlage einer Interessenabwägung) erfolgt, Widerspruch einzulegen; dies gilt auch für ein auf diese Bestimmung gestütztes Profiling im Sinne von Art. 4 Nr. 4 DSGVO.</p><p>Legen Sie Widerspruch ein, werden wir Ihre personenbezogenen Daten nicht mehr verarbeiten, es sei denn, wir können zwingende schutzwürdige Gründe für die Verarbeitung nachweisen, die Ihre Interessen, Rechte und Freiheiten überwiegen, oder die Verarbeitung dient der Geltendmachung, Ausübung oder Verteidigung von Rechtsansprüchen.</p><h3>Empfänger eines Widerspruchs</h3><p>Alexander Schönfeld</p><hr><h2>Änderung unserer Datenschutzbestimmungen</h2><p>Wir behalten uns vor, diese Datenschutzerklärung anzupassen, damit sie stets den aktuellen rechtlichen Anforderungen entspricht oder um Änderungen unserer Leistungen in der Datenschutzerklärung umzusetzen, z.B. bei der Einführung neuer Services. Für Ihren erneuten Besuch gilt dann die neue Datenschutzerklärung.</p><h2>Fragen an den Datenschutzbeauftragten</h2><p>Wenn Sie Fragen zum Datenschutz haben, schreiben Sie uns bitte eine E-Mail oder wenden Sie sich direkt an die für den Datenschutz verantwortliche Person in unserer Organisation:</p><p>Alexander Schönfeld, as@daslizenzatelier.de</p><p><em>Die Datenschutzerklärung wurde mithilfe der activeMind AG erstellt, den Experten für <a href="https://www.activemind.de/datenschutz/datenschutzbeauftragter/" target="_blank" rel="noopener">externe Datenschutzbeauftragte</a> (Version #2020-09-30).</em></p></div></div>'
+    var COMPONENTS = [{'name': 'ActivationComponent', 'selector': 'app-activation'},{'name': 'AppComponent', 'selector': 'app-root'},{'name': 'BackgroundVideoComponent', 'selector': 'app-background-video'},{'name': 'BrowseComponent', 'selector': 'app-browse'},{'name': 'CategoryCarouselComponent', 'selector': 'app-category-carousel'},{'name': 'DatenschutzComponent', 'selector': 'app-datenschutz'},{'name': 'EmailverificationComponent', 'selector': 'app-emailverification'},{'name': 'FooterComponent', 'selector': 'app-footer'},{'name': 'HomeComponent', 'selector': 'app-home'},{'name': 'ImpressumComponent', 'selector': 'app-impressum'},{'name': 'LoginComponent', 'selector': 'app-login'},{'name': 'RegisterComponent', 'selector': 'app-register'},{'name': 'UserconfirmnewpasswordComponent', 'selector': 'app-userconfirmnewpassword'},{'name': 'UserResetPasswordComponent', 'selector': 'app-user-reset-password'},{'name': 'VideodetailComponent', 'selector': 'app-videodetail'},{'name': 'VideoPlayerComponent', 'selector': 'app-video-player'}];
+    var DIRECTIVES = [];
+    var ACTUAL_COMPONENT = {'name': 'DatenschutzComponent'};
+</script>
+<script src="../js/tree.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                   </div><div class="search-results">
+    <div class="has-results">
+        <h1 class="search-results-title"><span class='search-results-count'></span> results matching "<span class='search-query'></span>"</h1>
+        <ul class="search-results-list"></ul>
+    </div>
+    <div class="no-results">
+        <h1 class="search-results-title">No results matching "<span class='search-query'></span>"</h1>
+    </div>
+</div>
+</div>
+               <!-- END CONTENT -->
+           </div>
+       </div>
+
+          <label class="dark-mode-switch">
+               <input type="checkbox">
+               <span class="slider">
+                    <svg class="slider-icon" viewBox="0 0 24 24" fill="none" height="20" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" width="20" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>
+                    </svg>
+               </span>
+          </label>
+
+       <script>
+            var COMPODOC_CURRENT_PAGE_DEPTH = 1;
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'component';
+            var COMPODOC_CURRENT_PAGE_URL = 'DatenschutzComponent.html';
+            var MAX_SEARCH_RESULTS = 15;
+       </script>
+
+       <script>
+               $darkModeToggleSwitchers = document.querySelectorAll('.dark-mode-switch input');
+               checkToggle(darkModeState);
+               if ($darkModeToggleSwitchers.length > 0) {
+                    for (var i = 0; i < $darkModeToggleSwitchers.length; i++) {
+                         $darkModeToggleSwitchers[i].addEventListener('change', function (event) {
+                              darkModeState = !darkModeState;
+                              toggleDarkMode(darkModeState);
+                         });
+                    }
+               }
+          </script>
+
+       <script src="../js/libs/custom-elements.min.js"></script>
+       <script src="../js/libs/lit-html.js"></script>
+
+       <script src="../js/menu-wc.js" defer></script>
+       <script nomodule src="../js/menu-wc_es5.js" defer></script>
+
+       <script src="../js/libs/bootstrap-native.js"></script>
+
+       <script src="../js/libs/es6-shim.min.js"></script>
+       <script src="../js/libs/EventDispatcher.js"></script>
+       <script src="../js/libs/promise.min.js"></script>
+
+       <script src="../js/compodoc.js"></script>
+
+       <script src="../js/tabs.js"></script>
+       <script src="../js/menu.js"></script>
+       <script src="../js/libs/clipboard.min.js"></script>
+       <script src="../js/libs/prism.js"></script>
+       <script src="../js/sourceCode.js"></script>
+          <script src="../js/search/search.js"></script>
+          <script src="../js/search/lunr.min.js"></script>
+          <script src="../js/search/search-lunr.js"></script>
+          <script src="../js/search/search_index.js"></script>
+       <script src="../js/lazy-load-graphs.js"></script>
+
+
+    </body>
+</html>
