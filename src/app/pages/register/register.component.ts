@@ -93,7 +93,6 @@ export class RegisterComponent implements OnInit {
       { ...formData, password: formData.password1, baseUrl },
     ).subscribe(
       (data) => {
-        console.log('Registration successful', data);
         this.successMessage = 'User was created.';
         this.isLoading = false; // Ensure isLoading is set to false on success
       },

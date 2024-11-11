@@ -57,7 +57,6 @@ export class CategoryCarouselComponent {
    * @param video - The video object containing the video details.
    */
   showVideo(video: any): void {
-    console.log('Video:', video);
     this.router.navigate(['/video', video.id]);
   }
 }

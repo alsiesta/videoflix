@@ -22,8 +22,6 @@ export class AuthInterceptorService implements HttpInterceptor {
 
     const clonedReq = req.clone({ headers });
 
-    // Log the headers to verify
-    console.log('Request Headers:', clonedReq.headers.keys().map(key => `${key}: ${clonedReq.headers.get(key)}`));
 
     return next.handle(clonedReq);
   }

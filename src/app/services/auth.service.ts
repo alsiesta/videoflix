@@ -34,11 +34,9 @@ export class AuthService {
       .then((response: HttpResponse<LoginResponse>) => {
         // Log all headers to verify
         response.headers.keys().forEach(key => {
-          console.log(`${key}: ${response.headers.get(key)}`);
         });
 
         const csrfToken = response.headers.get('X-Csrftoken'); // Use exact case
-        console.log('CSRF Token:', csrfToken); // Log the CSRF token
 
         if (csrfToken) {
           localStorage.setItem('x-csrftoken', csrfToken);

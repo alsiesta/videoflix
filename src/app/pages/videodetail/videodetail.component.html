@@ -12,10 +12,22 @@
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
     </svg> Back to Home
   </div>
+
   <div>
     <app-video-player [videoSrc]="video?.path || ''"></app-video-player>
   </div>
-  <p>Title: {{video?.title}}</p>
-  <p>Description: {{video?.description}}</p>
+
+  <div class="resolution-selector m-4">
+    <label for="resolution" class="blocktext-sm font-medium text-white">Select Resolution:</label>
+    <select id="resolution" (change)="onResolutionChange($event)"
+      class="m-4 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md bg-black text-white">
+      <option value="480">480p</option>
+      <option value="720">720p</option>
+      <option value="1080">1080p</option>
+    </select>
+  </div>
+
+  <p class="m-4">Title: {{video?.title}}</p>
+  <p class="m-4">Description: {{video?.description}}</p>
 
 </div>

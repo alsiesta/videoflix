@@ -52,9 +52,7 @@ export class LoginComponent implements OnInit {
     this.http.post(url, body).subscribe(
       response => {
         // Handle successful response
-        // this.message = response. || null;
         this.error = null;
-        console.log('Activation link resent successfully', response);
       },
       (error: HttpErrorResponse) => {
         // Handle error response
@@ -116,13 +114,11 @@ export class LoginComponent implements OnInit {
           this.message = response.message;
           this.error = null;
           this.status = 'success';
-          console.log('Password reset link sent successfully', response);
           this.clearAlert()
         } else if (response.detail) {
           this.message = response.detail;
           this.error = null;
           this.status = 'success';
-          console.log('Password reset link sent successfully', response);
         }
       },
       (error: HttpErrorResponse) => {

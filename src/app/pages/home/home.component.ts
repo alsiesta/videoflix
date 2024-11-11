@@ -43,7 +43,6 @@ export class HomeComponent implements OnInit {
    * Fetches videos, groups them by category, and initializes video rotation.
    */
   async ngOnInit () {
-    console.log('Base URL:', this.BASE_URL);
     await this.loadVideos();
     this.groupVideosByCategory();
     this.initializeVideoRotation();
@@ -109,7 +108,6 @@ export class HomeComponent implements OnInit {
     const url = `${environment.baseUrl}/videos/`;
     try {
       const videos = await lastValueFrom(this.http.get<Video[]>(url));
-      console.log('Fetched videos:', videos);
       return videos;
     } catch (error) {
       if (error instanceof HttpErrorResponse) {
@@ -186,7 +184,6 @@ export class HomeComponent implements OnInit {
       // Select a random starting index
       this.currentIndex = Math.floor(Math.random() * this.videos.length);
       this.hero_video = this.videos[this.currentIndex];
-      console.log(this.hero_video);
 
       // Set up a timer to change the video every 10 seconds
       this.timerSubscription = timer(10000, 10000).subscribe(() => {

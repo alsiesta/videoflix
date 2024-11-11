@@ -14,14 +14,11 @@ import { SafeUrl } from '@angular/platform-browser';
 })
 export class VideodetailComponent implements OnInit {
   video: Video | undefined;
+  resolutions = ['480', '720', '1080'];
   videoId: string | null = null;
 
 
   constructor (private route: ActivatedRoute, private http: HttpClient, private router: Router) { }
-
-  // getSanitizedUrl(videoPath: string | undefined): SafeUrl | null {
-  //   return videoPath ? this.sanitizer.bypassSecurityTrustResourceUrl(videoPath) : null;
-  // }
 
   async ngOnInit (): Promise<void> {
     this.videoId = this.route.snapshot.paramMap.get('id');
@@ -45,14 +42,23 @@ export class VideodetailComponent implements OnInit {
           path: `${environment.baseUrl}/${basePath}_480p.m3u8`, // Use the base path without the extension
 
         };
-        console.log('Video details:', this.video);
       },
       (error) => {
-        console.error('Error fetching video details:', error);
       }
     );
   }
 
+
+  onResolutionChange(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const resolution = selectElement.value;
+    if (this.video) {
+      const splitPath = this.video.path.split('_');
+      const basePath = splitPath.slice(0, -1).join('_'); // Get the base path without the resolution part
+      this.video.path = `${basePath}_${resolution}p.m3u8`;
+    }
+  }
+  
 
   navigateToHome (event: Event) {
     event.preventDefault();
